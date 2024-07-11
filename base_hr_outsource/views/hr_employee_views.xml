@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Inherit and extend the hr.employee form view -->
+        <record id="view_employee_form_inherit_tbg" model="ir.ui.view">
+            <field name="name">hr.employee.form.insurance.tbg</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <!--region Header Basic info -->
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="name" placeholder="Employee's Name"
+                                        required="True" style="font-size: min(2vw, 1.9rem); min-width:60%;"/>
+                     <field name="arabic_name" placeholder="Write arabic name" style="font-size: min(2vw, 1.0rem);"/>
+                </xpath>
+                <xpath expr="//field[@name='job_title']" position="replace">
+
+                    <field name="job_title" placeholder="Job Position" style="max-width:60%;"/>
+                    <field name="arabic_title" placeholder="Write arabic job position" style="font-size: min(2vw, 1.0rem); width:40%;" />
+                </xpath>
+                <xpath expr="//group[1]" position="before">
+                   <group>
+                       <group>
+                            <field name="employee_status" help="Employee Status"/>
+                       </group>
+                   </group>
+                   <group>
+                       <group>
+                           <field name="identification_id"/>
+<!--                            class="w-50" style="font-size: min(2vw, 0.9rem);"/>-->
+                       </group>
+                       <group>
+                             <field name="barcode"/>
+                        </group>
+                   </group>
+                </xpath>
+
+                <xpath expr="//field[@name='work_email']" position="after">
+                    <field name="profile_type"/>
+                    <field name="health_insurance"/>
+                    <field name="health_insurance_date"/>
+
+                </xpath>
+
+                <xpath expr="//field[@name='coach_id']" position="after">
+                    <field name="cost_center_id"/>
+                </xpath>
+                <!--endregion -->
+
+                <!--region private info tab -->
+                <xpath expr="//field[@name='children']" position="after">
+                    <field name="children_dependant_ids"  invisible="not children"
+                    context="{'default_type':'child'}">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="date_of_birth"/>
+                        </tree>
+                    </field>
+                    <field name="wives"/>
+                    <field name="wives_dependant_ids" invisible="not wives"
+                           context="{'default_type':'wife'}">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="date_of_birth"/>
+                        </tree>
+                    </field>
+                </xpath>
+                <!--endregion -->
+
+                <!--region group for social insurance info in HR settings tab -->
+                <xpath expr="//page[@name='hr_settings']" position="inside">
+                    <group string="Social Insurance Info" name="social_insurance_info">
+                        <group>
+                            <field name="sinid"/>
+                            <field name="si_date"/>
+                            <field name="si_form_date"/>
+                            <field name="si_type"/>
+                            <field name="purchasing_period"/>
+                            <field name="si_status"/>
+                            <field name="si_title"/>
+                            <field name="electronic_type"/>
+                            <field name="si_office"/>
+                            <field name="si_sector"/>
+                            <field name="si_group"/>
+                        </group>
+                        <group>
+                            <field name="medical_from_to_si"/>
+                            <field name="medical_status"/>
+                            <field name="medical_form_to_emp"/>
+                            <field name="medical_form_from_emp"/>
+                            <field name="fit_status"/>
+                            <field name="last_date"/>
+                            <field name="registered_status"/>
+<!--                            <field name="si_reason_id"/>-->
+                        </group>
+                    </group>
+                </xpath>
+                <!--endregion -->
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Hiring Papers">
+                        <field name="id" invisible="1"/>
+                        <field name="hiring_paper_id" domain="[('employee_id', '=', id)]"
+                               context="{'default_employee_id':id}" groups="base.group_no_one"/>
+                        <group  string="Personal Info">
+                            <group>
+                                 <field name="birth"/>
+                                <field name="birthday"/>
+                                <field name="place_of_birth"/>
+                                <field name="gender"/>
+                                <field name="country_id"/>
+                                <field name="identification_id"/>
+                                 <field name="passport_id"/>
+                             </group>
+                            <group>
+                                <field name="photos"/>
+                                <field name="national_id"/>
+                                 <field name="national_id_issue_date"/>
+                                <field name="national_id_end_date"/>
+                                <field name="marital"/>
+                             </group>
+                        </group>
+
+                        <group string="Work Info">
+                            <group>
+                                <field name="certificate_type"/>
+                                <field name="qualification"/>
+                                <field name="university_name"/>
+                                <field name="graduation"/>
+                                <field name="graduation_year"/>
+                                <field name="si_not_insured_reasons"/>
+                            </group>
+
+                            <group>
+                                <field name="contract"/>
+                                <field name="sign_contract_date"/>
+                                <field name="manpower_form"/>
+                                <field name="manpower_date"/>
+                                <field name="manpower_office"/>
+                                <field name="send_manpower_form"/>
+                             </group>
+                            <group>
+                                <field name="military"/>
+                                <field name="military_status"/>
+                                <field name="end_military"/>
+                                <field name="criminal_status"/>
+                            </group>
+                             <group>
+                                  <field name="end_reason"/>
+                                  <field name="print_out_form"/>
+
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Insurance">
+                       <notebook>
+                            <page string="Plans">
+                                <field name="insurance_plan_ids"/>
+                            </page>
+                            <page string="Claims">
+
+                                <field name="insurance_claim_ids"/>
+                            </page>
+                       </notebook>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

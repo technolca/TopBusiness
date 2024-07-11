@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form view -->
+        <record id="view_hiring_papers_form" model="ir.ui.view">
+            <field name="name">tbg.hiring_papers.form</field>
+            <field name="model">tbg.hiring_papers</field>
+            <field name="arch" type="xml">
+                <form string="Hiring Papers">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+<!--                        <group  string="Personal Info">-->
+<!--                            <group>-->
+<!--                                 <field name="employee_id"/>-->
+<!--                                 <field name="birth"/>-->
+<!--                                <field name="birthdate"/>-->
+<!--                                <field name="place_of_birth"/>-->
+<!--                                <field name="gender"/>-->
+<!--                                <field name="country_id"/>-->
+<!--                             </group>-->
+<!--                            <group>-->
+<!--                                <field name="photos"/>-->
+<!--                                <field name="national_id"/>-->
+<!--                                <field name="national_id_no"/>-->
+<!--                                 <field name="national_id_issue_date"/>-->
+<!--                                <field name="national_id_end_date"/>-->
+<!--                                <field name="passport_no"/>-->
+<!--                             </group>-->
+<!--                        </group>-->
+
+<!--                        <group string="Work Info">-->
+<!--                            <group>-->
+<!--&lt;!&ndash;                                <field name="print_out_form"/>&ndash;&gt;-->
+<!--                                <field name="social_status"/>-->
+<!--                                <field name="si_not_insured_reasons"/>-->
+<!--                                <field name="end_reason"/>-->
+<!--                                <field name="criminal_status"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="military"/>-->
+<!--                                <field name="military_status"/>-->
+<!--                                <field name="end_military"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="qualification"/>-->
+<!--                                <field name="university_name"/>-->
+<!--                                <field name="graduation"/>-->
+<!--                                <field name="graduation_year"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="contract"/>-->
+<!--                                <field name="sign_contract_date"/>-->
+<!--                                <field name="manpower_form"/>-->
+<!--                                <field name="manpower_date"/>-->
+<!--                                <field name="manpower_office"/>-->
+<!--                                <field name="send_manpower_form"/>-->
+<!--                             </group>-->
+<!--                        </group>-->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view (optional) -->
+        <record id="view_hiring_papers_tree" model="ir.ui.view">
+            <field name="name">tbg.hiring_papers.tree</field>
+            <field name="model">tbg.hiring_papers</field>
+            <field name="arch" type="xml">
+                <tree string="Hiring Papers">
+                    <field name="name"/>
+                    <field name="contract" optional="show"/>
+                    <field name="military" optional="show"/>
+                    <field name="graduation" optional="show"/>
+                    <field name="manpower_form" optional="show"/>
+                    <field name="photos" optional="show"/>
+                    <field name="birth" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- Action for the model (optional) -->
+        <record id="action_hiring_papers" model="ir.actions.act_window">
+            <field name="name">Hiring Papers</field>
+            <field name="res_model">tbg.hiring_papers</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

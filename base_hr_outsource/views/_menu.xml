@@ -1,0 +1,7 @@
+<odoo>
+	<data>
+<!--		<menuitem id="emr_base_top_menu" name="emr_base" sequence="20" web_icon="emr_base,static/description/icon.png" />-->
+<!--		<menuitem id="emr_base_sub_menu" name="Operations" sequence="40" parent="emr_base_top_menu" />-->
+<!--		<menuitem id="emr_base_config_menu" name="Configurations" sequence="50" parent="emr_base_top_menu" />-->
+	</data>
+</odoo>

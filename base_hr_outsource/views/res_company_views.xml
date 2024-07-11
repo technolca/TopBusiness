@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form view -->
+        <record id="view_branch_contract_details_form" model="ir.ui.view">
+            <field name="name">res.company.contract.details.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Contract Details">
+                        <group>
+                            <group string="Contract Details">
+                                <field name="contract_start_date"/>
+                                <field name="contract_end_date"/>
+                                <field name="commission_type"/>
+                                <field name="commission_value"/>
+<!--                                <field name="life_insurance_contract_ids" widget="one2many_list"/>-->
+<!--                                <field name="medical_insurance_contract"/>-->
+                            </group>
+                            <group string="Invoicing Method">
+                                <field name="invoicing_method"/>
+                            </group>
+                            <group>
+                                <field name="customer_hold"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+<!--        &lt;!&ndash; Tree view for life insurance contracts (optional) &ndash;&gt;-->
+<!--        <record id="view_life_insurance_contract_tree" model="ir.ui.view">-->
+<!--            <field name="name">life.insurance.contract.tree</field>-->
+<!--            <field name="model">life.insurance.contract</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="Life Insurance Contracts">-->
+<!--                    <field name="policy_number"/>-->
+<!--                    <field name="life_insurance_company"/>-->
+<!--                    <field name="start_date"/>-->
+<!--                    <field name="end_date"/>-->
+<!--                    <field name="medical_same_info"/>-->
+<!--                    <field name="payment_terms"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Form view for life insurance contracts (optional) &ndash;&gt;-->
+<!--        <record id="view_life_insurance_contract_form" model="ir.ui.view">-->
+<!--            <field name="name">life.insurance.contract.form</field>-->
+<!--            <field name="model">life.insurance.contract</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Life Insurance Contract">-->
+<!--                    <group>-->
+<!--                        <field name="policy_number"/>-->
+<!--                        <field name="life_insurance_company"/>-->
+<!--                        <field name="start_date"/>-->
+<!--                        <field name="end_date"/>-->
+<!--                        <field name="medical_same_info"/>-->
+<!--                        <field name="payment_terms"/>-->
+<!--                    </group>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <!-- Optional: Action for the model -->
+        <!--
+        <record id="action_contract_details" model="ir.actions.act_window">
+            <field name="name">Contract Details</field>
+            <field name="res_model">company.branch</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_contract_details_form"/>
+        </record>
+        -->
+    </data>
+</odoo>

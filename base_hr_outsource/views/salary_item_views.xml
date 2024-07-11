@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tbg_salary_item_form" model="ir.ui.view">
+        <field name="name">tbg.salary_item.form</field>
+        <field name="model">tbg.salary_item</field>
+        <field name="arch" type="xml">
+            <form string="Salary Item">
+              <sheet>
+                  <group>
+                      <group>
+                          <field name="date"/>
+                          <field name="basic"/>
+                          <field name="salary_structure_id"/>
+                      </group>
+                      <group>
+                         <field name="currency_id"/>
+                         <field name="pay_currency_id"/>
+                     </group>
+                  </group>
+                  <notebook>
+                      <page string="Calculations">
+                          <group>
+                              <group string="Salary Calculation">
+                            <field name="gross"/>
+                            <field name="full_basic"/>
+                            <field name="rate"/>
+                            <field name="all_insured"/>
+                            <field name="all_not_insured"/>
+                            <field name="full_basic_si"/>
+                            <field name="full_salary_si"/>
+                        </group>
+                              <group string="Social Insurance Calculation">
+                            <field name="fixed"/>
+                            <field name="si_amount"/>
+                            <field name="si_salary"/>
+                            <field name="bank_name"/>
+                            <field name="fees_on"/>
+                            <field name="bank_fees"/>
+                            <field name="deduction_fees"/>
+                            <field name="refund_salary"/>
+                        </group>
+                          </group>
+                      </page>
+                      <page string="Salary Items">
+                            <group>
+                                <group string=" ">
+                                <field name="transportation"/>
+                                <field name="mobile"/>
+                                <field name="location"/>
+                                <field name="meal"/>
+                                <field name="plant"/>
+                            </group>
+                            <group string=" ">
+                                <field name="parking"/>
+                                <field name="fixed_ot"/>
+                                <field name="commission"/>
+                                <field name="social_raise"/>
+                            </group>
+                            <group string=" ">
+                                <field name="guaranteed_bonus"/>
+                                <field name="housing"/>
+                                <field name="acting"/>
+                            </group>
+                            <group string=" ">
+                                <field name="occasional_bonus"/>
+                                <field name="job_nature"/>
+                                <field name="offshore"/>
+                            </group>
+                            </group>
+                     </page>
+                      <page string="Audit">
+                          <group>
+                              <field name="create_uid"/>
+                              <field name="create_date"/>
+                          </group>
+                      </page>
+                  </notebook>
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tbg_salary_item_tree" model="ir.ui.view">
+        <field name="name">tbg.salary_item.tree</field>
+        <field name="model">tbg.salary_item</field>
+        <field name="arch" type="xml">
+            <tree string="Salary Item">
+                <field name="date"/>
+                <field name="create_uid"/>
+                <field name="gross" optional="show"/>
+                <field name="full_basic" optional="show"/>
+                <field name="rate" optional="show"/>
+                <field name="all_insured" optional="show"/>
+                <field name="all_not_insured" optional="show"/>
+                <field name="full_basic_si" optional="show"/>
+                <field name="full_salary_si" optional="show"/>
+                <field name="currency_id" optional="show"/>
+                <field name="pay_currency_id" optional="hide"/>
+                <field name="transportation" optional="hide"/>
+                <field name="mobile" optional="hide"/>
+                <field name="location" optional="hide"/>
+                <field name="meal" optional="hide"/>
+                <field name="plant" optional="hide"/>
+                <field name="parking" optional="hide"/>
+                <field name="fixed_ot"  optional="hide"/>
+                <field name="commission"  optional="hide"/>
+                <field name="social_raise"  optional="hide"/>
+                <field name="guaranteed_bonus"  optional="hide"/>
+                <field name="housing"  optional="hide"/>
+                <field name="acting"  optional="hide"/>
+                <field name="job_nature"  optional="hide"/>
+                <field name="occasional_bonus"  optional="hide"/>
+                <field name="offshore" optional="hide"/>
+                <field name="fixed" optional="show"/>
+                <field name="si_amount" optional="show"/>
+                <field name="si_salary" optional="show"/>
+                <field name="bank_name" optional="show"/>
+                <field name="fees_on" optional="show"/>
+                <field name="bank_fees" optional="show"/>
+                <field name="deduction_fees" optional="show"/>
+                <field name="refund_salary" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_tbg_salary_item" model="ir.actions.act_window">
+        <field name="name">Salary Items</field>
+        <field name="res_model">tbg.salary_item</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+</odoo>

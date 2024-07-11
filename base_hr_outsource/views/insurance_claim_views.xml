@@ -1,0 +1,44 @@
+<odoo>
+    <record id="view_insurance_claim_form" model="ir.ui.view">
+        <field name="name">tbg.insurance_claim.form</field>
+        <field name="model">tbg.insurance_claim</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Claim">
+                <group>
+                    <field name="claim_date"/>
+                    <field name="diagnosis"/>
+                    <field name="treatment"/>
+                    <field name="claim_amount"/>
+                    <field name="status"/>
+                    <field name="patient_id"/>
+                    <field name="plan_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_insurance_claim_tree" model="ir.ui.view">
+        <field name="name">tbg.insurance_claim.tree</field>
+        <field name="model">tbg.insurance_claim</field>
+        <field name="arch" type="xml">
+            <tree string="Insurance Claims">
+                <field name="claim_date"/>
+                <field name="diagnosis"/>
+                <field name="treatment"/>
+                <field name="claim_amount"/>
+                <field name="status"/>
+                <field name="patient_id"/>
+                <field name="plan_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_insurance_claim" model="ir.actions.act_window">
+        <field name="name">Insurance Claims</field>
+        <field name="res_model">tbg.insurance_claim</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    <menuitem id="menu_insurance_claim_root" name="Insurance Claims" parent="hr.menu_hr_root"/>-->
+<!--    <menuitem id="menu_insurance_claim" name="Insurance Claims" parent="menu_insurance_claim_root" action="action_insurance_claim"/>-->
+</odoo>

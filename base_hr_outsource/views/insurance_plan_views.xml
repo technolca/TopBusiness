@@ -1,0 +1,59 @@
+<odoo>
+    <record id="view_insurance_plan_form" model="ir.ui.view">
+        <field name="name">tbg.insurance_plan.form</field>
+        <field name="model">tbg.insurance_plan</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Plan">
+                <group>
+                     <field name="insurance_type"/>
+                    <field name="insurance_company"/>
+                    <field name="insurance_number"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="coverage_details"/>
+                    <field name="deductible"/>
+                    <field name="premium"/>
+<!--                    <field name="name"/>-->
+<!--                    <field name="coverage_details"/>-->
+<!--                    <field name="premium"/>-->
+<!--                    <field name="deductible"/>-->
+<!--                    <field name="co_pay"/>-->
+<!--                    <field name="plan_type"/>-->
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_insurance_plan_tree" model="ir.ui.view">
+        <field name="name">tbg.insurance_plan.tree</field>
+        <field name="model">tbg.insurance_plan</field>
+        <field name="arch" type="xml">
+            <tree string="Insurance Plans">
+                <field name="insurance_type"/>
+                <field name="insurance_company"/>
+                <field name="insurance_number"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="coverage_details"/>
+                <field name="deductible"/>
+                <field name="premium"/>
+<!--                <field name="name"/>-->
+<!--                <field name="premium"/>-->
+<!--                <field name="deductible"/>-->
+<!--                <field name="co_pay"/>-->
+<!--                <field name="plan_type"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_insurance_plan" model="ir.actions.act_window">
+        <field name="name">Insurance Plans</field>
+        <field name="res_model">tbg.insurance_plan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    <menuitem id="menu_insurance_plan_root" name="Insurance Plans" parent="hr.menu_hr_root"/>-->
+<!--    <menuitem id="menu_insurance_plan" name="Insurance Plans" parent="-->
+
+
+</odoo>

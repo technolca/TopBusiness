@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_contract_form_inherited" model="ir.ui.view">
+        <field name="name">hr.contract.form.inherited</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="before">
+                <group>
+                    <group>
+                        <field name="hiring_month"/>
+                        <field name="hiring_email"/>
+                        <field name="probation_period"/>
+                        <field name="renewal_date"/>
+                    </group>
+                    <group>
+                        <field name="extra_renewal"/>
+                        <field name="salary_schema"/>
+                        <field name="renewal_type"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Salary Items">
+                     <field name="salary_item_ids"/>
+                </page>
+                <page string="Termination" name="termination">
+                       <group>
+                            <group>
+                                <field name="termination_reason"/>
+                                <field name="absent"/>
+                                <field name="letter"/>
+                                <field name="second_letter"/>
+                                <field name="received_letter"/>
+                                <field name="send_letter"/>
+                                <field name="send_second_letter"/>
+                                <field name="appear_letter"/>
+                            </group>
+                            <group string="Custody">
+                                <field name="declaration"/>
+                                <field name="custody"/>
+                                <field name="custody_declaration"/>
+                            </group>
+                       </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

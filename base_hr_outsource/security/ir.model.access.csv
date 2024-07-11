@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_base_hr_outsource_tbg_employee_dependant,tbg.employee_dependant,model_tbg_employee_dependant,base.group_user,1,1,1,1
+
+access_base_hr_outsource_tbg_hiring_papers,tbg.hiring_papers,model_tbg_hiring_papers,base.group_user,1,1,1,1
+
+access_base_hr_outsource_tbg_selection_fields,tbg.selection_fields,model_tbg_selection_fields,base.group_user,1,1,1,1
+
+access_base_hr_outsource_tbg_salary_item,tbg.salary_item,model_tbg_salary_item,base.group_user,1,1,1,1
+
+access_base_hr_outsource_tbg_insurance_plan,tbg.insurance_plan,model_tbg_insurance_plan,base.group_user,1,1,1,1
+access_base_hr_outsource_tbg_insurance_claim,tbg.insurance_claim,model_tbg_insurance_claim,base.group_user,1,1,1,1
