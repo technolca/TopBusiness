@@ -62,7 +62,7 @@ class SalaryItem(models.Model):
     basic = fields.Monetary(string='Basic', currency_field='currency_id')
     currency_id = fields.Many2one('res.currency', string='Currency')
     pay_currency_id = fields.Many2one('res.currency', string='Pay Currency')
-    salary_structure_id = fields.Many2one('hr.payroll.structure', string='Salary Structure')
+    # salary_structure_id = fields.Many2one('hr.payroll.structure', string='Salary Structure')
     # endregion
 
     # region  Special
