@@ -7,7 +7,7 @@ Logfile location: /var/log/odoo
 User PostgreSQL: odoo
 Code location: odoo
 Addons folder: odoo/odoo-server/addons/
-Password superadmin (database): AdXRI0ILjsxyfptF
+Password superadmin (database): obcVUFkt6Eca188o
 Start Odoo service: sudo service odoo-server start
 Stop Odoo service: sudo service odoo-server stop
 Restart Odoo service: sudo service odoo-server restart
