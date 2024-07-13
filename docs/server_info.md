@@ -1,3 +1,5 @@
+To access server:  ssh root@162.55.57.106
+
 Port: 8069
 User service: odoo
 Configuraton file location: /etc/odoo-server.conf
@@ -14,7 +16,7 @@ DB :  TBG_TEST_DB_1
 un : admin
 pw : admin
 
-see log file : sudo tail -f /var/log/odoo/odoo-server.log
+to see log file : sudo tail -f /var/log/odoo/odoo-server.log
 to getout from log file : ctrlx ctrlc (without space)
 
 add custom addons :
@@ -23,3 +25,8 @@ add custom addons :
 - cd custom/
 - ls
 - cd addons/
+
+to force stop odoo service :
+- ps axu||grep
+- get odoo service no from the first column 
+- sudo kill -9 no_off_service 
