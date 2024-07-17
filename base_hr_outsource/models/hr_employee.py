@@ -272,6 +272,10 @@ class EmployeeDependent(models.Model):
         ('parent', 'Parent'),
         ('spouse', 'Spouse'),
     ], string='Type', required=True)
+    status = fields.Selection([
+        ('maried', 'Maried'),
+        ('divorced', 'Divorced'),
+    ])
 
 
 class SelectionFields(models.Model):
