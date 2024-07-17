@@ -162,7 +162,7 @@
                                         <field name="wives" invisible="gender != 'male'"/>
                                     </group>
                                 </group>
-                                    <field name="wives_dependant_ids" invisible="not wives and gender != 'male'"
+                                    <field name="wives_dependant_ids" invisible="not wives or gender != 'male'"
                                            context="{'default_type':'spouse'}" nolabel="1">
                                         <tree editable="bottom">
                                             <field name="name"/>
