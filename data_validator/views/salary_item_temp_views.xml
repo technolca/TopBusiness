@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_tbg_salary_item_form" model="ir.ui.view">
-        <field name="name">tbg.salary_item.form</field>
-        <field name="model">tbg.salary_item</field>
+    <record id="view_tbg_salary_item_temp_form" model="ir.ui.view">
+        <field name="name">tbg.salary_item_temp.form</field>
+        <field name="model">tbg.salary_item_temp</field>
         <field name="arch" type="xml">
             <form string="Salary Item">
               <sheet>
+                  <group>
+                      <field name="need_confirm"/>
+                      <field name="fix_note"/>
+                  </group>
                   <group>
                       <group>
                           <field name="date"/>
@@ -21,24 +25,24 @@
                       <page string="Calculations">
                           <group>
                               <group string="Salary Calculation">
-                            <field name="gross"/>
-                            <field name="full_basic"/>
-                            <field name="rate"/>
-                            <field name="all_insured"/>
-                            <field name="all_not_insured"/>
-                            <field name="full_basic_si"/>
-                            <field name="full_salary_si"/>
-                        </group>
-                              <group string="Social Insurance Calculation">
-                            <field name="fixed"/>
-                            <field name="si_amount"/>
-                            <field name="si_salary"/>
-                            <field name="bank_name"/>
-                            <field name="fees_on"/>
-                            <field name="bank_fees"/>
-                            <field name="deduction_fees"/>
-                            <field name="refund_salary"/>
-                        </group>
+                                <field name="gross"/>
+                                <field name="full_basic"/>
+                                <field name="rate"/>
+                                <field name="all_insured"/>
+                                <field name="all_not_insured"/>
+                                <field name="full_basic_si"/>
+                                <field name="full_salary_si"/>
+                            </group>
+                            <group string="Social Insurance Calculation">
+                                <field name="fixed"/>
+                                <field name="si_amount"/>
+                                <field name="si_salary"/>
+                                <field name="bank_name"/>
+                                <field name="fees_on"/>
+                                <field name="bank_fees"/>
+                                <field name="deduction_fees"/>
+                                <field name="refund_salary"/>
+                            </group>
                           </group>
                       </page>
                       <page string="Salary Items">
@@ -80,9 +84,9 @@
         </field>
     </record>
 
-    <record id="view_tbg_salary_item_tree" model="ir.ui.view">
-        <field name="name">tbg.salary_item.tree</field>
-        <field name="model">tbg.salary_item</field>
+    <record id="view_tbg_salary_item_temp_tree" model="ir.ui.view">
+        <field name="name">tbg.salary_item_temp.tree</field>
+        <field name="model">tbg.salary_item_temp</field>
         <field name="arch" type="xml">
             <tree string="Salary Item">
                 <field name="date"/>
@@ -119,14 +123,13 @@
                 <field name="bank_fees" optional="show"/>
                 <field name="deduction_fees" optional="show"/>
                 <field name="refund_salary" optional="show"/>
-                <field name="contract_id" optional="hide"/>
             </tree>
         </field>
     </record>
 
-    <record id="action_tbg_salary_item" model="ir.actions.act_window">
+    <record id="action_tbg_salary_item_temp" model="ir.actions.act_window">
         <field name="name">Salary Items</field>
-        <field name="res_model">tbg.salary_item</field>
+        <field name="res_model">tbg.salary_item_temp</field>
         <field name="view_mode">tree,form</field>
 
     </record>

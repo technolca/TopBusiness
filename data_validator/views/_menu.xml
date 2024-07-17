@@ -1,0 +1,8 @@
+<odoo>
+	<data>
+		<menuitem id="data_validator_top_menu" name="Import Data" web_icon="data_validator,static/description/icon.png"
+			action="action_tbg_salary_item_temp"/>
+		<menuitem id="salary_items_menu" name="Salary Items" parent="data_validator_top_menu"
+				  action="base_hr_outsource.action_tbg_salary_item"/>
+	</data>
+</odoo>

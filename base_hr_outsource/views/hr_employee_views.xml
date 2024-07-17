@@ -58,7 +58,7 @@
                     </field>
                     <field name="wives"/>
                     <field name="wives_dependant_ids" invisible="not wives"
-                           context="{'default_type':'wife'}">
+                           context="{'default_type':'spouse'}">
                         <tree editable="bottom">
                             <field name="name"/>
                             <field name="date_of_birth"/>

@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_user_emr_base_AbstractModel,access_user_emr_base_AbstractModel,model_emr_base_AbstractModel,emr_base.group_emr_base_user,1,0,0,0
+access_manager_emr_base_AbstractModel,access_manager_emr_base_AbstractModel,model_emr_base_AbstractModel,emr_base.group_emr_base_manager,1,1,1,1
+access_admin_emr_base_AbstractModel,access_admin_emr_base_AbstractModel,model_emr_base_AbstractModel,base.group_system,1,1,1,1
+access_admin_emr_base_alert_message,access_admin_emr_base_alert_message,model_emr_base_alert_message,base.group_system,1,1,1,1
