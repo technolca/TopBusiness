@@ -47,26 +47,6 @@
                 </xpath>
                 <!--endregion -->
 
-                <!--region private info tab -->
-                <xpath expr="//field[@name='children']" position="after">
-                    <field name="children_dependant_ids"  invisible="not children"
-                    context="{'default_type':'child'}">
-                        <tree editable="bottom">
-                            <field name="name"/>
-                            <field name="date_of_birth"/>
-                        </tree>
-                    </field>
-                    <field name="wives"/>
-                    <field name="wives_dependant_ids" invisible="not wives"
-                           context="{'default_type':'spouse'}">
-                        <tree editable="bottom">
-                            <field name="name"/>
-                            <field name="date_of_birth"/>
-                        </tree>
-                    </field>
-                </xpath>
-                <!--endregion -->
-
                 <!--region group for social insurance info in HR settings tab -->
                 <xpath expr="//page[@name='hr_settings']" position="inside">
                     <group string="Social Insurance Info" name="social_insurance_info">
@@ -94,6 +74,116 @@
 <!--                            <field name="si_reason_id"/>-->
                         </group>
                     </group>
+                </xpath>
+                <!--endregion -->
+
+                <!--Personal Info -->
+                <xpath expr="//page[@name='personal_information']" position="replace">
+                    <page name="personal_information" string="Private Information" groups="hr.group_hr_user">
+                        <notebook>
+                            <page string="Personal Info">
+                                 <group>
+                                     <group string="Private Contact">
+                                        <label for="private_street" string="Private Address"/>
+                                        <div class="o_address_format">
+                                            <field name="private_street" placeholder="Street..." class="o_address_street"/>
+                                            <field name="private_street2" placeholder="Street 2..." class="o_address_street"/>
+                                            <field name="private_city" placeholder="City" class="o_address_city"/>
+                                            <field name="private_state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'default_country_id': private_country_id}"/>
+                                            <field name="private_zip" placeholder="ZIP" class="o_address_zip"/>
+                                            <field name="private_country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                        </div>
+                                        <field name="private_email" string="Email"/>
+                                        <field name="private_phone" string="Phone"/>
+                                        <field name="bank_account_id" context="{'default_partner_id': work_contact_id}" options="{'no_quick_create': True}" readonly="not id"/>
+                                        <field name="lang" string="Language"/>
+                                        <label for="km_home_work"/>
+                                        <div class="o_row" name="div_km_home_work">
+                                            <field name="km_home_work" class="o_hr_narrow_field"/>
+                                            <span>Km</span>
+                                        </div>
+                                        <field name="private_car_plate" />
+                                    </group>
+                                     <group string="Citizenship">
+                                        <field name="country_id" options='{"no_open": True, "no_create": True}'/>
+                                        <field name="identification_id"/>
+                                        <field name="ssnid"/>
+                                        <field name="passport_id"/>
+                                        <field name="gender"/>
+                                        <field name="birthday"/>
+                                        <field name="place_of_birth"/>
+                                        <field name="country_of_birth"/>
+                                    </group>
+                                     <group string="Emergency" name="emergency">
+                                        <field name="emergency_contact"/>
+                                        <field name="emergency_phone" class="o_force_ltr"/>
+                                    </group>
+                                     <group string="Education">
+                                        <field name="certificate"/>
+                                        <field name="study_field"/>
+                                        <field name="study_school"/>
+<!--                                        <separator name="has_work_permit" string="Work Permit"/>-->
+                                    </group>
+                                </group>
+                                <group string="Work Permit">
+                                         <group>
+                                             <field name="visa_no"/>
+                                             <field name="permit_no"/>
+                                             <field name="visa_expire"/>
+                                         </group>
+                                         <group>
+                                            <field name="work_permit_expiration_date"/>
+                                            <field name="work_permit_name" invisible="1"/>
+                                            <field name="has_work_permit" widget="work_permit_upload" filename="work_permit_name"/>
+                                         </group>
+                                     </group>
+                            </page>
+                            <page string="Family Status">
+                                 <group>
+                                    <field name="marital"/>
+                                    <field name="spouse_complete_name" invisible="marital not in ['married', 'cohabitant'] or gender == 'male'"/>
+                                    <field name="spouse_birthdate" invisible="marital not in ['married', 'cohabitant'] or gender == 'male'"/>
+                                 </group>
+                                <group>
+                                    <group>
+                                        <field name="children"/>
+                                    </group>
+                                </group>
+                                    <field name="children_dependant_ids"  invisible="not children"
+                                    context="{'default_type':'child'}">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="date_of_birth"/>
+                                        </tree>
+                                    </field>
+<!--                                </group>-->
+                                <group>
+                                    <group>
+                                        <field name="wives" invisible="gender != 'male'"/>
+                                    </group>
+                                </group>
+                                    <field name="wives_dependant_ids" invisible="not wives or gender != 'male'"
+                                           context="{'default_type':'spouse'}" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="date_of_birth" optional="hide"/>
+                                            <field name="status"/>
+                                            <field name="case_no" optional="hide" invisible="status != 'divorced'"/>
+                                            <field name="for_year" optional="hide" invisible="status != 'divorced'"/>
+                                            <field name="court" optional="hide" invisible="status != 'divorced'"/>
+                                            <field name="alimony_type" optional="hide" invisible="status != 'divorced'"/>
+                                            <field name="start_from" optional="hide" invisible="status != 'divorced'"/>
+                                            <field name="amount" optional="hide" invisible="status != 'divorced'"/>
+                                            <field name="percent" optional="hide" invisible="status != 'divorced'"/>
+                                            <field name="stop" optional="hide" invisible="status != 'divorced'"/>
+                                            <field name="stop_reason" optional="hide" invisible="status != 'divorced'"/>
+                                            <field name="comments" optional="hide" invisible="status != 'divorced'"/>
+                                        </tree>
+                                    </field>
+<!--                                </group>-->
+                            </page>
+                        </notebook>
+                            </page>
                 </xpath>
                 <!--endregion -->
 

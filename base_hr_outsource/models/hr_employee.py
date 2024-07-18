@@ -272,7 +272,24 @@ class EmployeeDependent(models.Model):
         ('parent', 'Parent'),
         ('spouse', 'Spouse'),
     ], string='Type', required=True)
-
+    status = fields.Selection([
+        ('maried', 'Maried'),
+        ('divorced', 'Divorced'),
+    ])
+    case_no = fields.Integer(string='Case No', required=True)
+    for_year = fields.Integer(string='For Year', required=True)
+    court = fields.Char(string='Court', required=True)
+    alimony_type = fields.Selection([
+        ('type1', 'Type 1'),
+        ('type2', 'Type 2'),
+        # Add more types as needed
+    ], string='Alimony Type', required=True)
+    start_from = fields.Date(string='Start From', required=True)
+    amount = fields.Float(string='Amount', required=True)
+    percent = fields.Float(string='Percent', required=True)
+    stop = fields.Boolean(string='Stop')
+    stop_reason = fields.Char(string='Stop Reason')
+    comments = fields.Text(string='Comments')
 
 class SelectionFields(models.Model):
     _name = 'tbg.selection_fields'
