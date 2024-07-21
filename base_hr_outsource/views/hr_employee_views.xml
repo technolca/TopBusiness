@@ -166,7 +166,7 @@
                                            context="{'default_type':'spouse'}" nolabel="1">
                                         <tree editable="bottom">
                                             <field name="name"/>
-                                            <field name="date_of_birth" optional="hide"/>
+                                            <field name="date_of_birth" optional="show"/>
                                             <field name="status"/>
                                             <field name="case_no" optional="hide" invisible="status != 'divorced'"/>
                                             <field name="for_year" optional="hide" invisible="status != 'divorced'"/>
