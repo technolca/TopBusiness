@@ -149,11 +149,13 @@
                                         <field name="children"/>
                                     </group>
                                 </group>
+                                    <field name="id" invisible="1"/>
                                     <field name="children_dependant_ids"  invisible="not children"
                                     context="{'default_type':'child'}">
                                         <tree editable="bottom">
                                             <field name="name"/>
                                             <field name="date_of_birth"/>
+                                            <field name="type" optional="hide" readonly="1" force_save="1"/>
                                         </tree>
                                     </field>
 <!--                                </group>-->
@@ -178,6 +180,8 @@
                                             <field name="stop" optional="hide" invisible="status != 'divorced'"/>
                                             <field name="stop_reason" optional="hide" invisible="status != 'divorced'"/>
                                             <field name="comments" optional="hide" invisible="status != 'divorced'"/>
+
+                                            <field name="type" optional="hide" readonly="1" force_save="1"/>
                                         </tree>
                                     </field>
 <!--                                </group>-->
