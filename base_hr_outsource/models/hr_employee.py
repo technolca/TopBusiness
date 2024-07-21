@@ -265,31 +265,32 @@ class EmployeeDependent(models.Model):
     _description = 'Employee Dependent For Insurance'
 
     name = fields.Char(string='Name', required=True)
-    date_of_birth = fields.Date(string='Date of Birth', required=True)
+    date_of_birth = fields.Date(string='Date of Birth', required=False)
     employee_id = fields.Many2one('hr.employee', string='Employee', ondelete='cascade')
     type = fields.Selection([
         ('child', 'Child'),
         ('parent', 'Parent'),
         ('spouse', 'Spouse'),
-    ], string='Type', required=True)
+    ], string='Type', required=False)
     status = fields.Selection([
         ('maried', 'Maried'),
         ('divorced', 'Divorced'),
     ])
-    case_no = fields.Integer(string='Case No', required=True)
-    for_year = fields.Integer(string='For Year', required=True)
-    court = fields.Char(string='Court', required=True)
+    case_no = fields.Integer(string='Case No', required=False)
+    for_year = fields.Integer(string='For Year', required=False)
+    court = fields.Char(string='Court', required=False)
     alimony_type = fields.Selection([
         ('type1', 'Type 1'),
         ('type2', 'Type 2'),
         # Add more types as needed
-    ], string='Alimony Type', required=True)
-    start_from = fields.Date(string='Start From', required=True)
-    amount = fields.Float(string='Amount', required=True)
-    percent = fields.Float(string='Percent', required=True)
+    ], string='Alimony Type', required=False)
+    start_from = fields.Date(string='Start From', required=False)
+    amount = fields.Float(string='Amount', required=False)
+    percent = fields.Float(string='Percent', required=False)
     stop = fields.Boolean(string='Stop')
     stop_reason = fields.Char(string='Stop Reason')
     comments = fields.Text(string='Comments')
+
 
 class SelectionFields(models.Model):
     _name = 'tbg.selection_fields'
