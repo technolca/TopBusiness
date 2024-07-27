@@ -48,7 +48,6 @@ class SalaryItem(models.Model):
     fixed = fields.Monetary(string='Fixed')
     si_amount = fields.Monetary(string='SI Amount')
     si_salary = fields.Monetary(string='SI Salary')
-    bank_name = fields.Char(string='Bank Name')
     fees_on = fields.Selection([
         ('company', 'Company'),
         ('employee', 'Employee'),
@@ -60,15 +59,17 @@ class SalaryItem(models.Model):
     refund_salary = fields.Monetary(string='Refund Salary')
 
     basic = fields.Monetary(string='Basic', currency_field='currency_id')
-    currency_id = fields.Many2one('res.currency', string='Currency')
-    pay_currency_id = fields.Many2one('res.currency', string='Pay Currency')
-    salary_structure_id = fields.Many2one('hr.payroll.structure', string='Salary Structure')
     # endregion
 
     # region  Special
     # endregion
 
     # region  Relational
+    bank_id = fields.Many2one('res.bank', string='Bank Name')
+    bank_name = fields.Char(related='bank_id.name', string='Bank Name')
+    currency_id = fields.Many2one('res.currency', string='Currency')
+    pay_currency_id = fields.Many2one('res.currency', string='Pay Currency')
+    salary_structure_id = fields.Many2one('hr.payroll.structure', string='Salary Structure')
     contract_id = fields.Many2one('hr.contract', string='Contract')
     # endregion
 

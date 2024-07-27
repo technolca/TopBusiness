@@ -7,8 +7,14 @@
             <form string="Salary Item">
               <sheet>
                   <group>
-                      <field name="need_confirm"/>
-                      <field name="fix_note"/>
+                      <group>
+                          <field name="need_confirm"/>
+                          <field name="fix_note"/>
+                      </group>
+                      <group>
+                          <field name="employee_badge_id"/>
+                          <field name="employee_national_id"/>
+                      </group>
                   </group>
                   <group>
                       <group>
@@ -88,17 +94,26 @@
         <field name="name">tbg.salary_item_temp.tree</field>
         <field name="model">tbg.salary_item_temp</field>
         <field name="arch" type="xml">
-            <tree string="Salary Item">
-                <field name="date"/>
-                <field name="create_uid"/>
-                <field name="gross" optional="show"/>
-                <field name="full_basic" optional="show"/>
-                <field name="rate" optional="show"/>
-                <field name="all_insured" optional="show"/>
-                <field name="all_not_insured" optional="show"/>
-                <field name="full_basic_si" optional="show"/>
-                <field name="full_salary_si" optional="show"/>
-                <field name="currency_id" optional="show"/>
+
+            <tree string="Salary Item" decoration-danger="need_confirm" editable="bottom">
+                <header>
+                    <button type="object" name="action_validate" string="Validate" />
+                    <button type="object" name="action_confirm" string="Confirm" />
+                </header>
+                <field name="employee_badge_id" optional="show"/>
+                <field name="employee_national_id" optional="hide"/>
+                <field name="date" optional="show"/>
+                <field name="create_uid" optional="hide"/>
+                <field name="need_confirm" />
+                <field name="fix_note" optional="show"/>
+                <field name="gross" optional="hide"/>
+                <field name="full_basic" optional="hide"/>
+                <field name="rate" optional="hide"/>
+                <field name="all_insured" optional="hide"/>
+                <field name="all_not_insured" optional="hide"/>
+                <field name="full_basic_si" optional="hide"/>
+                <field name="full_salary_si" optional="hide"/>
+                <field name="currency_id" optional="hide"/>
                 <field name="pay_currency_id" optional="hide"/>
                 <field name="transportation" optional="hide"/>
                 <field name="mobile" optional="hide"/>
@@ -115,14 +130,15 @@
                 <field name="job_nature"  optional="hide"/>
                 <field name="occasional_bonus"  optional="hide"/>
                 <field name="offshore" optional="hide"/>
-                <field name="fixed" optional="show"/>
-                <field name="si_amount" optional="show"/>
-                <field name="si_salary" optional="show"/>
-                <field name="bank_name" optional="show"/>
-                <field name="fees_on" optional="show"/>
-                <field name="bank_fees" optional="show"/>
-                <field name="deduction_fees" optional="show"/>
-                <field name="refund_salary" optional="show"/>
+                <field name="fixed" optional="hide"/>
+                <field name="si_amount" optional="hide"/>
+                <field name="si_salary" optional="hide"/>
+                <field name="bank_name" optional="hide"/>
+                <field name="fees_on" optional="hide"/>
+                <field name="bank_fees" optional="hide"/>
+                <field name="deduction_fees" optional="hide"/>
+                <field name="refund_salary" optional="hide"/>
+                <button type="object" name="action_open_form_view" icon="fa-pencil" />
             </tree>
         </field>
     </record>
