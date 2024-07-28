@@ -24,6 +24,7 @@
     'data': [
         'security/ir.model.access.csv',
         "views/salary_item_temp_views.xml",
+        "views/hr_employee_temp_views.xml",
         "views/_menu.xml",
     ],
     # only loaded in demonstration mode

@@ -61,10 +61,11 @@ class SalaryItem(models.Model):
 
     # region ---------------------- TODO[IMP]: Fields Declaration ---------------------------------
     # region  Basic
-    date = fields.Char(help="Date")
-    transportation = fields.Char(string='Transportation', currency_field='currency_id', help="Monetary")
     need_confirm = fields.Boolean(default=False)
     fix_note = fields.Text()
+
+    date = fields.Char(help="Date")
+    transportation = fields.Char(string='Transportation', currency_field='currency_id', help="Monetary")
     mobile = fields.Char(string='Mobile', help='Original data type: Monetary')
     location = fields.Char(string='Location')
     meal = fields.Char(string='Meal', help='Original data type: Monetary')
@@ -138,17 +139,23 @@ class SalaryItem(models.Model):
         monetary_fields = DATA_TYPES.get('Monetary', [])
             # dict(filter(lambda field: field[1].get('name') in DATA_TYPES.get('Monetary', [])
             #                           , list(all_fields.items())))
+        # result = self.search_read(
+        #     list(monetary_fields),
+        # )
         for rec in self:
             rec.fix_note = ''
-            if monetary_fields:
-                result = rec.search_read(
-                    [('id', 'in', rec.ids)],
-                    list(monetary_fields),
-                )[0]
-                monetary_fields_with_char = dict(
-                    filter(lambda field: not re.match(r'^[1-9]\d*(\.\d+)?$', str(field[1])) and field[1], list(result.items())))
-                if monetary_fields_with_char:
-                    rec.fix_note = ', '.join(list(monetary_fields_with_char.keys())) + ' contains non-numeric value \n'
+            monetary_fields_with_char = []
+
+            for field in monetary_fields:
+                value = getattr(rec, field)
+                if value and not re.match(r'^[1-9]\d*(\.\d+)?$', value):
+                    monetary_fields_with_char.append(field)
+            # if getattr(rec,"basic"):
+            #     monetary_fields_with_char = dict(
+            #         filter(lambda field: not re.match(r'^[1-9]\d*(\.\d+)?$', str(field[1])) and field[1],
+            #                list(result.items())))
+            if monetary_fields_with_char:
+                rec.fix_note = ', '.join(monetary_fields_with_char) + ' contains non-numeric value \n'
 
             if rec.employee_national_id and not re.match(r"\b\d{14}\b", rec.employee_national_id):
                 rec.fix_note += 'Employee National ID must be 14 number \n'

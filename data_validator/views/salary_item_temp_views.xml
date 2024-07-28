@@ -144,7 +144,7 @@
     </record>
 
     <record id="action_tbg_salary_item_temp" model="ir.actions.act_window">
-        <field name="name">Salary Items</field>
+        <field name="name">Salary Items Temp</field>
         <field name="res_model">tbg.salary_item_temp</field>
         <field name="view_mode">tree,form</field>
 

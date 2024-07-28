@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_temp_form" model="ir.ui.view">
+        <field name="name">hr.employee_temp.form</field>
+        <field name="model">tbg.hr_employee_temp</field>
+        <field name="arch" type="xml">
+          <form>
+                           <sheet>
+                    <!-- Region Header Basic Info -->
+                    <group>
+                        <field name="name" placeholder="Employee's Name"
+                               required="True" style="font-size: min(2vw, 1.9rem); min-width:60%;"/>
+                        <field name="arabic_name" placeholder="Write arabic name" style="font-size: min(2vw, 1.0rem);"/>
+                    </group>
+                    <group>
+                        <field name="job_title" placeholder="Job Position" style="max-width:60%;"/>
+                        <field name="arabic_title" placeholder="Write arabic job position" style="font-size: min(2vw, 1.0rem); width:40%;" />
+                    </group>
+                    <group>
+                        <group>
+                            <field name="employee_status" help="Employee Status"/>
+                        </group>
+                        <group>
+                            <field name="identification_id"/>
+                            <field name="barcode"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="private_email"/>
+                        <field name="profile_type"/>
+                        <field name="health_insurance"/>
+                        <field name="health_insurance_date"/>
+                    </group>
+                    <group>
+                        <field name="company_id" invisible="1"/>
+                        <field name="cost_center_id"/>
+                    </group>
+                    <!-- End of Region Header Basic Info -->
+
+<!--                   <notebook>-->
+<!--                        &lt;!&ndash; Social Insurance Info &ndash;&gt;-->
+<!--                    <page string="HR Settings" name="hr_settings">-->
+<!--                        <group string="Social Insurance Info" name="social_insurance_info">-->
+<!--                            <group>-->
+<!--                                <field name="sinid"/>-->
+<!--                                <field name="si_date"/>-->
+<!--                                <field name="si_form_date"/>-->
+<!--                                <field name="si_type"/>-->
+<!--                                <field name="purchasing_period"/>-->
+<!--                                <field name="si_status"/>-->
+<!--                                <field name="si_title"/>-->
+<!--                                <field name="electronic_type"/>-->
+<!--                                <field name="si_office"/>-->
+<!--                                <field name="si_sector"/>-->
+<!--                                <field name="si_group"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="medical_from_to_si"/>-->
+<!--                                <field name="medical_status"/>-->
+<!--                                <field name="medical_form_to_emp"/>-->
+<!--                                <field name="medical_form_from_emp"/>-->
+<!--                                <field name="fit_status"/>-->
+<!--                                <field name="last_date"/>-->
+<!--                                <field name="registered_status"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    &lt;!&ndash; End of Social Insurance Info &ndash;&gt;-->
+
+<!--                    &lt;!&ndash; Personal Info &ndash;&gt;-->
+<!--                    <page string="Private Information" name="personal_information">-->
+<!--                        <notebook>-->
+<!--                            <page string="Personal Info">-->
+<!--                                <group>-->
+<!--                                    <group string="Private Contact">-->
+<!--                                        <label for="private_street" string="Private Address"/>-->
+<!--                                        <div class="o_address_format">-->
+<!--                                            <field name="private_street" placeholder="Street..." class="o_address_street"/>-->
+<!--                                            <field name="private_street2" placeholder="Street 2..." class="o_address_street"/>-->
+<!--                                            <field name="private_city" placeholder="City" class="o_address_city"/>-->
+<!--                                            <field name="private_state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'default_country_id': private_country_id}"/>-->
+<!--                                            <field name="private_zip" placeholder="ZIP" class="o_address_zip"/>-->
+<!--                                            <field name="private_country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>-->
+<!--                                        </div>-->
+<!--                                        <field name="private_email" string="Email"/>-->
+<!--                                        <field name="private_phone" string="Phone"/>-->
+<!--                                        <field name="bank_account_id" context="{'default_partner_id': work_contact_id}" options="{'no_quick_create': True}" readonly="not id"/>-->
+<!--                                        <field name="lang" string="Language"/>-->
+<!--                                        <label for="km_home_work"/>-->
+<!--                                        <div class="o_row" name="div_km_home_work">-->
+<!--                                            <field name="km_home_work" class="o_hr_narrow_field"/>-->
+<!--                                            <span>Km</span>-->
+<!--                                        </div>-->
+<!--                                        <field name="private_car_plate" />-->
+<!--                                    </group>-->
+<!--                                    <group string="Citizenship">-->
+<!--                                        <field name="country_id" options='{"no_open": True, "no_create": True}'/>-->
+<!--                                        <field name="identification_id"/>-->
+<!--                                        <field name="ssnid"/>-->
+<!--                                        <field name="passport_id"/>-->
+<!--                                        <field name="gender"/>-->
+<!--                                        <field name="birthday"/>-->
+<!--                                        <field name="place_of_birth"/>-->
+<!--                                        <field name="country_of_birth"/>-->
+<!--                                    </group>-->
+<!--                                    <group string="Emergency" name="emergency">-->
+<!--                                        <field name="emergency_contact"/>-->
+<!--                                        <field name="emergency_phone" class="o_force_ltr"/>-->
+<!--                                    </group>-->
+<!--                                    <group string="Education">-->
+<!--                                        <field name="certificate"/>-->
+<!--                                        <field name="study_field"/>-->
+<!--                                        <field name="study_school"/>-->
+<!--                                    </group>-->
+<!--                                </group>-->
+<!--                                <group string="Work Permit">-->
+<!--                                    <group>-->
+<!--                                        <field name="visa_no"/>-->
+<!--                                        <field name="permit_no"/>-->
+<!--                                        <field name="visa_expire"/>-->
+<!--                                    </group>-->
+<!--                                    <group>-->
+<!--                                        <field name="work_permit_expiration_date"/>-->
+<!--                                        <field name="work_permit_name" invisible="1"/>-->
+<!--                                        <field name="has_work_permit" widget="work_permit_upload" filename="work_permit_name"/>-->
+<!--                                    </group>-->
+<!--                                </group>-->
+<!--                            </page>-->
+<!--                            <page string="Family Status">-->
+<!--                                <group>-->
+<!--                                    <field name="marital"/>-->
+<!--                                    <field name="spouse_complete_name" invisible="marital not in ['married', 'cohabitant'] or gender == 'male'"/>-->
+<!--                                    <field name="spouse_birthdate" invisible="marital not in ['married', 'cohabitant'] or gender == 'male'"/>-->
+<!--                                </group>-->
+<!--                                <group>-->
+<!--                                    <field name="children"/>-->
+<!--                                    <field name="children_dependant_ids" invisible="not children"-->
+<!--                                           context="{'default_type':'child'}">-->
+<!--                                        <tree editable="bottom">-->
+<!--                                            <field name="name"/>-->
+<!--                                            <field name="date_of_birth"/>-->
+<!--                                            <field name="type" optional="hide" readonly="1" force_save="1"/>-->
+<!--                                        </tree>-->
+<!--                                    </field>-->
+<!--                                    <field name="wives" invisible="gender != 'male'"/>-->
+<!--                                    <field name="wives_dependant_ids" invisible="not wives or gender != 'male'"-->
+<!--                                           context="{'default_type':'spouse'}" nolabel="1">-->
+<!--                                        <tree editable="bottom">-->
+<!--                                            <field name="name"/>-->
+<!--                                            <field name="date_of_birth" optional="show"/>-->
+<!--                                            <field name="status"/>-->
+<!--                                            <field name="case_no" optional="hide" invisible="status != 'divorced'"/>-->
+<!--                                            <field name="for_year" optional="hide" invisible="status != 'divorced'"/>-->
+<!--                                            <field name="court" optional="hide" invisible="status != 'divorced'"/>-->
+<!--                                            <field name="alimony_type" optional="hide" invisible="status != 'divorced'"/>-->
+<!--                                            <field name="start_from" optional="hide" invisible="status != 'divorced'"/>-->
+<!--                                            <field name="amount" optional="hide" invisible="status != 'divorced'"/>-->
+<!--                                            <field name="percent" optional="hide" invisible="status != 'divorced'"/>-->
+<!--                                            <field name="stop" optional="hide" invisible="status != 'divorced'"/>-->
+<!--                                            <field name="stop_reason" optional="hide" invisible="status != 'divorced'"/>-->
+<!--                                            <field name="comments" optional="hide" invisible="status != 'divorced'"/>-->
+<!--                                            <field name="type" optional="hide" readonly="1" force_save="1"/>-->
+<!--                                        </tree>-->
+<!--                                    </field>-->
+<!--                                </group>-->
+<!--                            </page>-->
+<!--                        </notebook>-->
+<!--                    </page>-->
+<!--                    &lt;!&ndash; End of Personal Info &ndash;&gt;-->
+
+<!--                    &lt;!&ndash; Hiring Papers and Insurance &ndash;&gt;-->
+<!--                    <page string="Hiring Papers">-->
+<!--                        <field name="id" invisible="1"/>-->
+<!--                        <field name="hiring_paper_id" domain="[('employee_id', '=', id)]"-->
+<!--                               context="{'default_employee_id':id}" groups="base.group_no_one"/>-->
+<!--                        <group string="Personal Info">-->
+<!--                            <group>-->
+<!--                                <field name="birth"/>-->
+<!--                                <field name="birthday"/>-->
+<!--                                <field name="place_of_birth"/>-->
+<!--                                <field name="gender"/>-->
+<!--                                <field name="country_id"/>-->
+<!--                                <field name="identification_id"/>-->
+<!--                                <field name="passport_id"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="photos"/>-->
+<!--                                <field name="national_id"/>-->
+<!--                                <field name="national_id_issue_date"/>-->
+<!--                                <field name="national_id_end_date"/>-->
+<!--                                <field name="marital"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                        <group string="Work Info">-->
+<!--                            <group>-->
+<!--                                <field name="certificate_type"/>-->
+<!--                                <field name="qualification"/>-->
+<!--                                <field name="university_name"/>-->
+<!--                                <field name="graduation"/>-->
+<!--                                <field name="graduation_year"/>-->
+<!--                                <field name="si_not_insured_reasons"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="contract"/>-->
+<!--                                <field name="sign_contract_date"/>-->
+<!--                                <field name="manpower_form"/>-->
+<!--                                <field name="manpower_date"/>-->
+<!--                                <field name="manpower_office"/>-->
+<!--                                <field name="send_manpower_form"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="military"/>-->
+<!--                                <field name="military_status"/>-->
+<!--                                <field name="end_military"/>-->
+<!--                                <field name="criminal_status"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="end_reason"/>-->
+<!--                                <field name="print_out_form"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+
+<!--                    <page string="Insurance">-->
+<!--                        <notebook>-->
+<!--                            <page string="Plans">-->
+<!--                                <field name="insurance_plan_ids"/>-->
+<!--                            </page>-->
+<!--                            <page string="Claims">-->
+<!--                                <field name="insurance_claim_ids"/>-->
+<!--                            </page>-->
+<!--                        </notebook>-->
+<!--                    </page>-->
+<!--                    &lt;!&ndash; End of Hiring Papers and Insurance &ndash;&gt;-->
+<!--                   </notebook>-->
+                </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record id="view_employee_temp_tree" model="ir.ui.view">
+        <field name="name">hr.employee_temp.tree</field>
+        <field name="model">tbg.hr_employee_temp</field>
+        <field name="arch" type="xml">
+             <tree string="Employees"
+                   decoration-danger="need_confirm">
+                    <header>
+                        <button name="action_validate" string="Validate" type="object" />
+                        <button name="action_confirm" string="Confirm" type="object" />
+                    </header>
+                    <field name="need_confirm"/>
+                    <field name="fix_note"/>
+                    <field name="name" readonly="1"/>
+
+                  <field name="company_id" groups="base.group_multi_company" readonly="1" optional="show"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="company_id" column_invisible="True"/>
+                    <field name="active" column_invisible="True"/>
+                    <field name="country_id" optional="hide"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id="action_hr_employee_temp_inherit" model="ir.actions.act_window">
+        <field name="name">Employees Temp</field>
+        <field name="res_model">tbg.hr_employee_temp</field>
+        <field name="view_mode">tree,form</field>
+        <field name="views"
+               eval="[(ref('view_employee_temp_tree'), 'tree'), (ref('view_employee_temp_form'), 'form')]"/>
+
+    </record>
+
+</odoo>
