@@ -5,36 +5,63 @@
         <field name="model">tbg.hr_employee_temp</field>
         <field name="arch" type="xml">
           <form>
-                           <sheet>
-                    <!-- Region Header Basic Info -->
-                    <group>
-                        <field name="name" placeholder="Employee's Name"
-                               required="True" style="font-size: min(2vw, 1.9rem); min-width:60%;"/>
-                        <field name="arabic_name" placeholder="Write arabic name" style="font-size: min(2vw, 1.0rem);"/>
-                    </group>
-                    <group>
-                        <field name="job_title" placeholder="Job Position" style="max-width:60%;"/>
-                        <field name="arabic_title" placeholder="Write arabic job position" style="font-size: min(2vw, 1.0rem); width:40%;" />
-                    </group>
-                    <group>
+               <sheet>
+                   <group>
+                       <field name="need_confirm"/>
+                        <field name="fix_note"/>
+                   </group>
+                   <group>
+                      <group>
+                            <field name="name" />
+                            <field name="arabic_name" />
+                            <field name="arabic_title"/>
+                            <field name="barcode" />
+                            <field name="private_email" />
+                            <field name="private_phone" />
+                            <field name="marital"/>
+                            <field name="birthday"/>
+                      </group>
                         <group>
-                            <field name="employee_status" help="Employee Status"/>
-                        </group>
-                        <group>
+                            <field name="gender"/>
                             <field name="identification_id"/>
-                            <field name="barcode"/>
+                            <field name="passport_id"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1" optional="show"/>
+                            <field name="department_id"/>
+                            <field name="job_id"/>
+                            <field name="company_id" column_invisible="True"/>
+                            <field name="active" column_invisible="True"/>
+                            <field name="country_id" optional="hide"/>
                         </group>
-                    </group>
-                    <group>
-                        <field name="private_email"/>
-                        <field name="profile_type"/>
-                        <field name="health_insurance"/>
-                        <field name="health_insurance_date"/>
-                    </group>
-                    <group>
-                        <field name="company_id" invisible="1"/>
-                        <field name="cost_center_id"/>
-                    </group>
+                   </group>
+                    <!-- Region Header Basic Info -->
+<!--                    <group>-->
+<!--                        <field name="name" placeholder="Employee's Name"-->
+<!--                               required="True" style="font-size: min(2vw, 1.9rem); min-width:60%;"/>-->
+<!--                        <field name="arabic_name" placeholder="Write arabic name" style="font-size: min(2vw, 1.0rem);"/>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="job_title" placeholder="Job Position" style="max-width:60%;"/>-->
+<!--                        <field name="arabic_title" placeholder="Write arabic job position" style="font-size: min(2vw, 1.0rem); width:40%;" />-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="employee_status" help="Employee Status"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="identification_id"/>-->
+<!--                            <field name="barcode"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="private_email"/>-->
+<!--                        <field name="profile_type"/>-->
+<!--                        <field name="health_insurance"/>-->
+<!--                        <field name="health_insurance_date"/>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="company_id" invisible="1"/>-->
+<!--                        <field name="cost_center_id"/>-->
+<!--                    </group>-->
                     <!-- End of Region Header Basic Info -->
 
 <!--                   <notebook>-->
@@ -250,13 +277,22 @@
                     </header>
                     <field name="need_confirm"/>
                     <field name="fix_note"/>
-                    <field name="name" readonly="1"/>
-
-                  <field name="company_id" groups="base.group_multi_company" readonly="1" optional="show"/>
-                    <field name="department_id"/>
-                    <field name="job_id"/>
-                    <field name="company_id" column_invisible="True"/>
-                    <field name="active" column_invisible="True"/>
+                    <field name="name" />
+                    <field name="arabic_name" />
+                    <field name="arabic_title"/>
+                    <field name="barcode" />
+                    <field name="private_email" />
+                    <field name="private_phone" />
+                    <field name="marital" optional="hide"/>
+                    <field name="birthday"/>
+                    <field name="gender" optional="hide"/>
+                    <field name="identification_id"/>
+                    <field name="passport_id"/>
+                    <field name="company_id" groups="base.group_multi_company" readonly="1" optional="show"/>
+                    <field name="department_id" optional="hide"/>
+                    <field name="job_id" optional="hide"/>
+                    <field name="company_id"  optional="hide"/>
+                    <field name="active"  optional="hide"/>
                     <field name="country_id" optional="hide"/>
                 </tree>
         </field>
