@@ -53,7 +53,7 @@ class SalaryItem(models.Model):
     # region ---------------------- TODO[IMP]: Private Attributes --------------------------------
     _name = "tbg.salary_item_temp"
     _description = "Employee temporary Salary item"
-    _inherit = []
+    _inherit = "tbg.base_validator"
     # endregion
 
     # region ---------------------- TODO[IMP]:Default Methods ------------------------------------
@@ -61,9 +61,6 @@ class SalaryItem(models.Model):
 
     # region ---------------------- TODO[IMP]: Fields Declaration ---------------------------------
     # region  Basic
-    need_confirm = fields.Boolean(default=False)
-    fix_note = fields.Text()
-
     date = fields.Char(help="Date")
     transportation = fields.Char(string='Transportation', currency_field='currency_id', help="Monetary")
     mobile = fields.Char(string='Mobile', help='Original data type: Monetary')

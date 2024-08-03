@@ -10,6 +10,7 @@ class EmployeeTemp(models.Model):
     # region ---------------------- TODO[IMP]: Private Attributes --------------------------------
     _name = "tbg.hr_employee_temp"
     _description = "Employee Temporary"
+    _inherit = "tbg.base_validator"
     # endregion
 
     # region ---------------------- TODO[IMP]:Default Methods ------------------------------------
@@ -21,8 +22,6 @@ class EmployeeTemp(models.Model):
 
     # region ---------------------- TODO[IMP]: Fields Declaration ---------------------------------
     # region  Basic
-    need_confirm = fields.Boolean(default=False)
-    fix_note = fields.Text()
     # endregion
     # ------------- my fields --------------
     # region ---------------- Basic Info ----------------
