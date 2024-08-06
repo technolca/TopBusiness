@@ -132,7 +132,7 @@ class EmployeeTemp(models.Model):
     department_id = fields.Many2one('hr.department', 'Department', check_company=True)
     job_id = fields.Many2one('hr.job', 'Job Position', check_company=True)
     job_title = fields.Char(related='job_id.name', readonly=True)
-    company_id = fields.Many2one('res.company', 'Company')
+    company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company)
 
     work_contact_id = fields.Many2one('res.partner', 'Work Contact', copy=False)
     work_location_id = fields.Many2one('hr.work.location', 'Work Location', domain="[('address_id', '=', address_id)]")
