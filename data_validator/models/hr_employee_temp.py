@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+from datetime import datetime
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -126,12 +127,12 @@ class EmployeeTemp(models.Model):
 
     # region --------- odoo fields -----------------
     name = fields.Char()
-    active = fields.Boolean("Active")
+    active = fields.Boolean("Active", default=True)
     color = fields.Integer('Color Index', default=0)
     department_id = fields.Many2one('hr.department', 'Department', check_company=True)
     job_id = fields.Many2one('hr.job', 'Job Position', check_company=True)
     job_title = fields.Char(related='job_id.name', readonly=True)
-    company_id = fields.Many2one('res.company', 'Company')
+    company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company)
 
     work_contact_id = fields.Many2one('res.partner', 'Work Contact', copy=False)
     work_location_id = fields.Many2one('hr.work.location', 'Work Location', domain="[('address_id', '=', address_id)]")
@@ -178,7 +179,7 @@ class EmployeeTemp(models.Model):
     place_of_birth = fields.Char('Place of Birth', groups="hr.group_hr_user", tracking=True)
     country_of_birth = fields.Many2one('res.country', string="Country of Birth", groups="hr.group_hr_user",
                                        tracking=True)
-    birthday = fields.Date('Date of Birth', groups="hr.group_hr_user", tracking=True)
+    birthday = fields.Char('Date of Birth', groups="hr.group_hr_user", tracking=True)
     ssnid = fields.Char('SSN No', help='Social Security Number', groups="hr.group_hr_user", tracking=True)
     sinid = fields.Char('SIN No', help='Social Insurance Number', groups="hr.group_hr_user", tracking=True)
     identification_id = fields.Char(string='Identification No', groups="hr.group_hr_user", tracking=True)
@@ -258,27 +259,32 @@ class EmployeeTemp(models.Model):
         national_ids = []
         for rec in self:
             rec.fix_note = ''
-            if rec.identification_id and not re.match(r"\b\d{14}\b", rec.identification_id):
-                rec.fix_note += 'Employee National ID must be 14 number \n'
-            else:
-                if rec.identification_id in national_ids:
-                    rec.fix_note += 'Employee National ID must be unique \n'
-                else:
-                    national_ids.append(rec.identification_id)
 
-            if rec.barcode and not re.match(r"^[a-zA-Z0-9]+$", rec.barcode):
-                rec.fix_note += 'Employee Badge ID must be alphanumeric only \n'
+            if not rec.identification_id and not rec.barcode:
+                rec.fix_note += 'Employee National ID or Badge ID should be filled \n'
             else:
-                if rec.barcode in barcodes:
-                    rec.fix_note += 'Employee Badge ID must be unique \n'
+                if rec.identification_id and not re.match(r"\b\d{14}\b", rec.identification_id):
+                    rec.fix_note += 'Employee National ID must be 14 number \n'
                 else:
-                    barcodes.append(rec.barcode)
+                    if rec.identification_id in national_ids:
+                        rec.fix_note += 'Employee National ID must be unique \n'
+                    else:
+                        national_ids.append(rec.identification_id)
+
+                    if rec.barcode and not re.match(r"^[a-zA-Z0-9]+$", rec.barcode):
+                        rec.fix_note += 'Employee Badge ID must be alphanumeric only \n'
+                    else:
+                        if rec.barcode in barcodes:
+                            rec.fix_note += 'Employee Badge ID must be unique \n'
+                        else:
+                            barcodes.append(rec.barcode)
 
             if rec.birthday:
-                if not re.match(r"\b(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b", rec.birthday):
-                    rec.fix_note += 'Date of birth must be in yyyy-mm-dd format \n'
-                elif rec.birthday >= fields.Date.today():
-                    rec.fix_note += 'Date of birth must be less than Date \n'
+                # \b(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b    yyyy-mm-dd
+                if not re.match(r"^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$", rec.birthday):
+                    rec.fix_note += 'Date of birth must be in mm/dd/yyyy format \n'
+                elif datetime.strptime(rec.birthday, '%m/%d/%Y').date() >= fields.Date.today():
+                    rec.fix_note += 'Date of birth must be before today\n'
 
             if rec.private_phone and not re.match(r"^(010|011|012|015)\d{8}$", rec.private_phone):
                 rec.fix_note += 'Mobile number must be 11 number start with 010, 011, 012 or 015 \n'
@@ -298,14 +304,16 @@ class EmployeeTemp(models.Model):
                     employee_vals = {
                         field.name: getattr(rec, field.name)
                         for field in rec._fields.values()
-                        if field.name not in ['id', 'need_confirm', 'fix_note', 'create_date', 'write_date']
+                        if field.name not in ['id', 'need_confirm', 'fix_note', 'create_date', 'write_date', 'company_id']
                     }
+                    employee_vals['company_id'] = rec.company_id.id if rec.company_id else False
+                    employee_vals['birthday'] = datetime.strptime(rec.birthday, '%m/%d/%Y').date()
                     self.env['hr.employee'].sudo().create(employee_vals)
                 except Exception as e:
                     rec.need_confirm = True
                     rec.fix_note = f'Failed to create record : {e}\n'
 
-        to_delete = self.filter(lambda x: not x.need_confirm)
+        to_delete = self.filtered(lambda x: not x.need_confirm)
         if to_delete:
             to_delete.unlink()
     # endregion
