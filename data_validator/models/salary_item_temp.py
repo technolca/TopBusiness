@@ -157,12 +157,15 @@ class SalaryItem(models.Model):
             if monetary_fields_with_char:
                 rec.fix_note = ', '.join(monetary_fields_with_char) + ' contains non-numeric value \n'
 
-            if rec.employee_national_id and not re.match(r"\b\d{14}\b", rec.employee_national_id):
-                rec.fix_note += 'Employee National ID must be 14 number \n'
-            if rec.employee_badge_id and not re.match(r"^[a-zA-Z0-9]+$", rec.employee_badge_id):
-                rec.fix_note += 'Employee Badge ID must be alphanumeric only \n'
-            if rec.date and not re.match(r"\b(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b", rec.date):
-                rec.fix_note += 'Date must be in yyyy-mm-dd format \n'
+            if not rec.employee_national_id and not rec.employee_badge_id:
+                rec.fix_note += 'Employee National ID or Badge ID should be filled \n'
+            else:
+                if rec.employee_national_id and not re.match(r"\b\d{14}\b", rec.employee_national_id):
+                    rec.fix_note += 'Employee National ID must be 14 number \n'
+                if rec.employee_badge_id and not re.match(r"^[a-zA-Z0-9]+$", rec.employee_badge_id):
+                    rec.fix_note += 'Employee Badge ID must be alphanumeric only \n'
+                if rec.date and not re.match(r"\b(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b", rec.date):
+                    rec.fix_note += 'Date must be in yyyy-mm-dd format \n'
 
             if rec.fix_note:
                 rec.need_confirm = True
@@ -201,7 +204,8 @@ class SalaryItem(models.Model):
         rec = self
         rec.fix_note = ''
         employee_id = employee_ids.filtered(
-            lambda x: x.identification_id == rec.employee_national_id or x.barcode == rec.employee_badge_id)
+            lambda x: (x.identification_id == rec.employee_national_id and rec.employee_national_id) or
+                      (x.barcode == rec.employee_badge_id and rec.employee_badge_id))
 
         bank_id = bank_ids.filtered(
                     lambda x: x.display_name == rec.bank_name)
