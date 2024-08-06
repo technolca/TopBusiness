@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "tbg_data_validator",
+    'name': "tbg_data_validator_taxs",
 
     'summary': "Short (1 phrase/line) summary of the module's purpose",
 
@@ -18,11 +18,12 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'base_hr_outsource'],
+    'depends': ['base', 'base_hr_outsource', 'data_validator'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'views/salary_info_views.xml',
         "views/_menu.xml",
     ],
     # only loaded in demonstration mode

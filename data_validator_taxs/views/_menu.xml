@@ -1,17 +1,9 @@
 <odoo>
 	<data>
-		<menuitem id="data_validator_top_menu" name="Import Data" web_icon="data_validator,static/description/icon.png"/>
 
-		<menuitem id="hr_employee_menu" name="Employee Import" parent="data_validator_top_menu">
-			<menuitem id="employee_temp_menu" name="Employee Temp" action="action_hr_employee_temp_inherit"/>
-			<menuitem id="employee_menu" name="Employee" action="hr.open_view_employee_list_my"/>
-		</menuitem>
-		<menuitem id="salary_item_menu" name="Salary Item Import" parent="data_validator_top_menu">
-			<menuitem id="salary_items_temp_menu" name="Salary Items Temp"
-				  action="action_tbg_salary_item_temp" sequence="10"/>
-
-		<menuitem id="salary_items_menu" name="Salary Items"
-				  action="base_hr_outsource.action_tbg_salary_item" sequence="20"/>
-		</menuitem>
+    <menuitem id="menu_tbg_salary_info_taxs"
+              name="Employee Details For Taxs"
+              parent="data_validator.data_validator_top_menu"
+              action="action_tbg_salary_info_taxs"/>
 	</data>
 </odoo>

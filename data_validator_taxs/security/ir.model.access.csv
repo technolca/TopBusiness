@@ -1,5 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
-access_base_hr_outsource_tbg_salary_item_temp,tbg.salary_item_temp,model_tbg_salary_item_temp,base.group_user,1,1,1,1
-
-access_base_hr_outsource_tbg_hr_employee_temp,tbg.hr_employee_temp,model_tbg_hr_employee_temp,base.group_user,1,1,1,1
+access_base_hr_outsource_tbg_salary_info_taxs,tbg.salary_info_taxs,model_tbg_salary_info_taxs,base.group_user,1,1,1,1

@@ -5,7 +5,7 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
-class ObjectModel(models.Model):
+class BaseValidator(models.Model):
 
     # region ---------------------- TODO[IMP]: Private Attributes --------------------------------
     _name = "tbg.base_validator"

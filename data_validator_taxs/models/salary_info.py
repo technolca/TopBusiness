@@ -1,6 +1,20 @@
 from odoo import models, fields
 import re
 
+FieldsDict = {
+    "Monetary":
+        [],
+    "Date":
+        [],
+    "char2":
+    [
+        "nationality",
+        "work_permit_status",
+        "tax_treatment",
+        "insurance_status",
+        "comprehensive_health_insurance_status",
+    ]
+}
 
 class EmployeeDetails(models.Model):
     _name = 'tbg.salary_info_taxs'
@@ -23,7 +37,7 @@ class EmployeeDetails(models.Model):
     work_duration = fields.Char(string='مدة العمل')
     insurance_status = fields.Char(string='الحالة التأمينية')
     insurance_number = fields.Char(string='الرقم التأمينى')
-    insurance_join_date = fields.Date(string='تاريخ الالتحاق بالتأمينات')
+    insurance_join_date = fields.Char(string='تاريخ الالتحاق بالتأمينات')
     previous_period_installment = fields.Float(string='قسط مدة سابقة')
     end_of_service_date = fields.Date(string='تاريخ نهاية الخدمة')
     social_insurance_end_date = fields.Date(string='تاريخ انتهاء الاشتراك من التأمينات الاجتماعية')
@@ -100,18 +114,38 @@ class EmployeeDetails(models.Model):
     other_deductions = fields.Float(string='استقطاعات أخرى')
     actually_transferred_amounts = fields.Float(string='المبالغ المحولة فعلياً')
 
+    total_entitlements = fields.Float(string='اجمالى الاستحقاقات')
+    insurance_wage = fields.Char(string='الأجر التأميني')
+    insurance_subscription_value = fields.Float(string='قيمة اشتراك التأمينات')
+    personal_exemption = fields.Char(string='الاعفاء الشخصي')
+    period_bowl = fields.Char(string='الوعاء للفترة')
+    annual_tax = fields.Char(string='الضريبة السنوية')
+
+    def create(self, vals):
+        for val in vals:
+            for field in FieldsDict.get('char2'):
+                value = val.get(field)
+                if value and len(value) < 2:
+                    val[field] = '0' + value
+        res = super(EmployeeDetails, self).create(vals)
+        return res
+
     def action_validate(self):
+        validate_and_fix = self.env.context.get('validate_and_fix', False)
         barcodes = []
         national_ids = []
         for rec in self:
             rec.fix_note = ''
-            if rec.national_id and not re.match(r"\b\d{14}\b", rec.national_id):
-                rec.fix_note += 'Employee National ID must be 14 number \n'
-            else:
-                if rec.national_id in national_ids:
-                    rec.fix_note += 'Employee National ID must be unique \n'
+            if rec.national_id:
+                if not re.match(r"\b\d{14}\b", rec.national_id):
+                    rec.fix_note += 'Employee National ID must be 14 number \n'
                 else:
-                    national_ids.append(rec.national_id)
+                    if rec.national_id in national_ids:
+                        rec.fix_note += 'Employee National ID must be unique \n'
+                    else:
+                        national_ids.append(rec.national_id)
+            elif rec.nationality == '01' and not rec.national_id:
+                rec.fix_note += 'Employee National ID is required for foreigners \n'
 
             if rec.employee_code and not re.match(r"^[a-zA-Z0-9]+$", rec.employee_code):
                 rec.fix_note += 'Employee Badge ID must be alphanumeric only \n'
@@ -120,33 +154,42 @@ class EmployeeDetails(models.Model):
                     rec.fix_note += 'Employee Badge ID must be unique \n'
                 else:
                     barcodes.append(rec.employee_code)
-            if rec.nationality and not re.match(r"^[0-9][1-2]$", rec.nationality):
+            if rec.nationality and not re.match(r"^[0][1-2]$", rec.nationality):
                 rec.fix_note += 'Nationality must be numeric with only 2 digits ex: 02, 01 \n'
 
             if rec.employee_name:
-                no = ''
-                if rec.nationality == '01' and not re.match(r"^([\u0600-\u06FFa-zA-Z]+ ){3}[\u0600-\u06FFa-zA-Z]+$",
-                                                                              rec.employee_name):
-                    no = '4'
-                if rec.nationality == '02' and not re.match(r"^([\u0600-\u06FFa-zA-Z]+( [\u0600-\u06FFa-zA-Z]+){1,3})$",
-                                                            rec.employee_name):
-                    no = '2 to 4'
-                if no:
-                    rec.fix_note += f'Employee name must be {no} names without extra spaces \n'
+                if validate_and_fix:
+                    rec.employee_name = rec.employee_name.strip().replace('  ', ' ')
+                no = 4 if rec.nationality == '01' else 2
+                if not re.match(r"^(?=\w+\s)(?=\w+(\s\w+){" + str(no - 1) + ",})(?=.{1,100}$)[^\s].*?[^\s]$", rec.employee_name):
+                    rec.fix_note += f"Employee name must be {no} or more names without extra spaces and doesn't exceed 100 characters\n"
+            else:
+                rec.fix_note += 'Employee name is required \n'
 
-            if rec.work_permit_status and not re.match(r"^[0-9][1-3]$", rec.work_permit_status):
-                rec.fix_note += 'Work permit status must be numeric with only 2 digits ex: 02, 01, 03 \n'
+            if not rec.work_permit_status:
+                if rec.nationality == '02':
+                    rec.fix_note += 'Work permit status is required for foreigners \n'
+            else:
+                if not re.match(r"^[0][1-3]$", rec.work_permit_status):
+                    rec.fix_note += 'Work permit status must be numeric with only 2 digits ex: 02, 01, 03 \n'
 
-            # if rec.birthday:
-            #     if not re.match(r"\b(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b", rec.birthday):
-            #         rec.fix_note += 'Date of birth must be in yyyy-mm-dd format \n'
-            #     elif rec.birthday >= fields.Date.today():
-            #         rec.fix_note += 'Date of birth must be less than Date \n'
+            if not rec.passport_number:
+                if rec.nationality == '02':
+                    rec.fix_note += 'Passport number is required for foreigners \n'
+            else:
+                if not re.match(r"\b[\u0600-\u06FFa-zA-Z0-9]{1,14}\b", rec.passport_number):
+                    rec.fix_note += 'Passport number must be 14 alphanumeric chars\n'
 
             if rec.phone_number and not re.match(r"^(010|011|012|015)\d{8}$", rec.phone_number):
-                rec.fix_note += 'Mobile number must be 11 number start with 010, 011, 012 or 015 \n'
+                note = 'Phone number must be 11 number start with 010, 011, 012 or 015 \n'
+                if validate_and_fix:
+                    rec.phone_number = '0' + rec.phone_number if rec.phone_number[0] != '0' else rec.phone_number
+                    if re.match(r"^(010|011|012|015)\d{8}$", rec.phone_number):
+                        note = ''
+                rec.fix_note += note
 
             if rec.fix_note:
                 rec.need_confirm = True
             else:
                 rec.need_confirm = False
+
