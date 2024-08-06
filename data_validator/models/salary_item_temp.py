@@ -148,7 +148,7 @@ class SalaryItem(models.Model):
 
             for field in monetary_fields:
                 value = getattr(rec, field)
-                if value and not re.match(r'^[1-9]\d*(\.\d+)?$', value):
+                if value and not re.match(r'^[1-9]\d*(\.\d+)?$', str(value)):
                     monetary_fields_with_char.append(field)
             # if getattr(rec,"basic"):
             #     monetary_fields_with_char = dict(
