@@ -1,9 +1,85 @@
 from odoo import models, fields
 import re
+# import unicodedata
 
 FieldsDict = {
-    "Monetary":
-        [],
+    "Flout":
+        [
+            'bonuses_and_incentives',
+            'exempt_special_allowances',
+            'taxable_special_allowances',
+            'commissions',
+            'employee_share_in_profits',
+            'service_fee',
+            'tips',
+            'board_member_salaries',
+            'cash_compensation_for_leave_balance',
+            'end_of_service_bonus',
+            'amounts_paid_under_special_laws_exempt_part',
+            'other_taxable_allowances',
+            'company_borne_salary_tax',
+            'company_borne_employee_social_insurance_share',
+            'quarterly_paid_taxable_amounts',
+            'semi_annual_paid_taxable_amounts',
+            'annual_paid_taxable_amounts',
+            'car_benefits',
+            'mobile_phone_benefits',
+            'loan_and_advance_benefits',
+            'life_insurance_benefits_employer_share',
+            'company_shares_inside_outside_egypt',
+            'other_benefits',
+            'employee_insurance_fund_contributions',
+            'life_insurance_premiums_employee',
+            'health_insurance_premiums',
+            'pension_insurance_premiums',
+            'additions_loan_value',
+            'additions_non_taxable_end_of_service_bonus',
+            'additions_non_taxable_leave_balance',
+            'other_additions',
+            'deductions_alimony',
+            'deductions_loan_installment',
+            'deductions_union_club_subscriptions',
+            'deductions_penalties',
+            'deductions_life_insurance_premium',
+            'other_deductions',
+            'actually_transferred_amounts',
+            'annual_gross_income',
+            'tax_due_for_original_employment',
+            'tax_due_for_employment_model_3',
+            'tax_due_for_employment_model_2',
+            'total_tax_due_for_all_employment',
+            'tax_due_for_period',
+            'tax_due_for_previous_periods_1_4_5_6_7',
+            'tax_due_for_period_1_4_5_6_7',
+            'tax_due_for_previous_periods_2',
+            'tax_due_for_period_2',
+            'tax_due_for_previous_periods_3',
+            'tax_due_for_period_3',
+            'final_net_salary',
+            'social_contribution_for_martyrs_fund',
+            'support_for_people_with_disabilities',
+            'additions_loan_value',
+            'additions_non_taxable_end_of_service_bonus',
+            'additions_non_taxable_leave_balance',
+            'other_additions',
+            'deductions_alimony',
+            'deductions_loan_installment',
+            'deductions_union_club_subscriptions',
+            'deductions_penalties',
+            'deductions_life_insurance_premium',
+            'other_deductions',
+            'actually_transferred_amounts',
+            'total_entitlements',
+            'insurance_wage',
+            'insurance_subscription_value',
+            'personal_exemption',
+            'period_bowl',
+            'annual_tax',
+            'previous_period_installment',
+            'total_salary',
+            'non_insurance_allowances',
+            'basic_salary',
+        ],
     "Date":
         [],
     "char2":
@@ -13,8 +89,10 @@ FieldsDict = {
         "tax_treatment",
         "insurance_status",
         "comprehensive_health_insurance_status",
+        'phone_number'
     ]
 }
+
 
 class EmployeeDetails(models.Model):
     _name = 'tbg.salary_info_taxs'
@@ -46,6 +124,7 @@ class EmployeeDetails(models.Model):
     comprehensive_health_insurance_status = fields.Char(string='حالة التأمين الصحي الشامل')
     non_worker_wives_count = fields.Integer(string='عدد الزوجات الغير عاملات (التأمين الصحي الشامل)')
     dependents_number = fields.Integer(string='عدد المعالين (التأمين الصحي الشامل)')
+
     basic_salary = fields.Float(string='المرتب الأساسي')
     bonuses_and_incentives = fields.Float(string='مكافات وحوافز/أجر إضافي/منح')
     exempt_special_allowances = fields.Float(string='علاوات خاصة معفاة')
@@ -115,18 +194,23 @@ class EmployeeDetails(models.Model):
     actually_transferred_amounts = fields.Float(string='المبالغ المحولة فعلياً')
 
     total_entitlements = fields.Float(string='اجمالى الاستحقاقات')
-    insurance_wage = fields.Char(string='الأجر التأميني')
+    insurance_wage = fields.Float(string='الأجر التأميني')
     insurance_subscription_value = fields.Float(string='قيمة اشتراك التأمينات')
-    personal_exemption = fields.Char(string='الاعفاء الشخصي')
-    period_bowl = fields.Char(string='الوعاء للفترة')
-    annual_tax = fields.Char(string='الضريبة السنوية')
+    personal_exemption = fields.Float(string='الاعفاء الشخصي')
+    period_bowl = fields.Float(string='الوعاء للفترة')
+    annual_tax = fields.Float(string='الضريبة السنوية')
 
     def create(self, vals):
         for val in vals:
             for field in FieldsDict.get('char2'):
-                value = val.get(field)
-                if value and len(value) < 2:
+                value = val.get(field, '')
+                if value and (len(value) == 1 or len(value) > 2) and value[0] != '0':
                     val[field] = '0' + value
+
+            for field in FieldsDict.get('Flout'):
+                val[field] = float(str(round(val.get(field, 0.0), 2)).replace(',', '') ) #
+            # if 'الله' in val.get('employee_name', ''):
+            #     val['employee_name'] = unicodedata.normalize('NFKD', val.get('employee_name'))
         res = super(EmployeeDetails, self).create(vals)
         return res
 
@@ -144,6 +228,7 @@ class EmployeeDetails(models.Model):
                         rec.fix_note += 'Employee National ID must be unique \n'
                     else:
                         national_ids.append(rec.national_id)
+
             elif rec.nationality == '01' and not rec.national_id:
                 rec.fix_note += 'Employee National ID is required for foreigners \n'
 
@@ -154,6 +239,7 @@ class EmployeeDetails(models.Model):
                     rec.fix_note += 'Employee Badge ID must be unique \n'
                 else:
                     barcodes.append(rec.employee_code)
+
             if rec.nationality and not re.match(r"^[0][1-2]$", rec.nationality):
                 rec.fix_note += 'Nationality must be numeric with only 2 digits ex: 02, 01 \n'
 
@@ -178,15 +264,15 @@ class EmployeeDetails(models.Model):
                     rec.fix_note += 'Passport number is required for foreigners \n'
             else:
                 if not re.match(r"\b[\u0600-\u06FFa-zA-Z0-9]{1,14}\b", rec.passport_number):
-                    rec.fix_note += 'Passport number must be 14 alphanumeric chars\n'
+                    rec.fix_note += 'Passport number must be 14 alphanumeric chars or less \n'
 
             if rec.phone_number and not re.match(r"^(010|011|012|015)\d{8}$", rec.phone_number):
-                note = 'Phone number must be 11 number start with 010, 011, 012 or 015 \n'
-                if validate_and_fix:
-                    rec.phone_number = '0' + rec.phone_number if rec.phone_number[0] != '0' else rec.phone_number
-                    if re.match(r"^(010|011|012|015)\d{8}$", rec.phone_number):
-                        note = ''
-                rec.fix_note += note
+                # note = 'Phone number must be 11 number start with 010, 011, 012 or 015 \n'
+                # if validate_and_fix:
+                #     # rec.phone_number = '0' + rec.phone_number if rec.phone_number[0] != '0' else rec.phone_number
+                #     if re.match(r"^(010|011|012|015)\d{8}$", rec.phone_number):
+                #         note = ''
+                rec.fix_note += 'Phone number must be 11 number start with 010, 011, 012 or 015 \n'
 
             if rec.fix_note:
                 rec.need_confirm = True
