@@ -82,7 +82,11 @@ FieldsDict = {
             'social_allowance'
         ],
     "Date":
-        [],
+        [
+            'insurance_join_date',
+            'end_of_service_date',
+            'social_insurance_end_date'
+        ],
     "char2":
     [
         "nationality",
@@ -91,7 +95,11 @@ FieldsDict = {
         "insurance_status",
         "comprehensive_health_insurance_status",
         'phone_number'
-    ]
+    ],
+    "required":
+        [
+
+        ]
 }
 
 
@@ -102,6 +110,7 @@ class EmployeeDetails(models.Model):
 
     # ---------- Export Fields ----------
     sent = fields.Boolean(help='تم الارسال')
+    done = fields.Boolean(help='تم التحقق منه مسبقا (بيانات قديمة)')
     sequence = fields.Integer(string='EI005', help='مسلسل')
     employee_code = fields.Char(string='EI010', help='كود الموظف')
     employee_name = fields.Char(string='EI015', help='اسم الموظف')
@@ -118,10 +127,11 @@ class EmployeeDetails(models.Model):
     work_duration = fields.Char(string='EI130', help='مدة العمل')
     insurance_status = fields.Char(string='EI070', help='الحالة التأمينية')
     insurance_number = fields.Char(string='EI075', help='الرقم التأمينى')
-    insurance_join_date = fields.Char(string='EI080', help='تاريخ الالتحاق بالتأمينات')
     previous_period_installment = fields.Float(string='EI085', help='قسط مدة سابقة')
-    end_of_service_date = fields.Date(string='EI090', help='تاريخ نهاية الخدمة')
-    social_insurance_end_date = fields.Date(string='EI095', help='تاريخ انتهاء الاشتراك من التأمينات الاجتماعية')
+
+    insurance_join_date = fields.Char(string='EI080', help='تاريخ الالتحاق بالتأمينات')
+    end_of_service_date = fields.Char(string='EI090', help='تاريخ نهاية الخدمة')
+    social_insurance_end_date = fields.Char(string='EI095', help='تاريخ انتهاء الاشتراك من التأمينات الاجتماعية')
     total_salary = fields.Float(string='EI100', help='الأجر الشامل')
     non_insurance_allowances = fields.Float(string='EI105', help='بدلات غير خاضعة تأمينيأ')
     comprehensive_health_insurance_status = fields.Char(string='EI115', help='حالة التأمين الصحي الشامل')
@@ -262,6 +272,30 @@ class EmployeeDetails(models.Model):
         national_ids = []
         for rec in self:
             rec.fix_note = ''
+            if not rec.nationality:
+                rec.fix_note += 'Nationality is required \n'
+            elif rec.nationality and not re.match(r"^[0][1-2]$", rec.nationality):
+                rec.fix_note += 'Nationality must be numeric with only 2 digits ex: 02, 01 \n'
+
+            if not rec.employee_code:
+                rec.fix_note += 'Employee code is required \n'
+            elif rec.employee_code and not re.match(r"^[a-zA-Z0-9]+$", rec.employee_code):
+                rec.fix_note += 'Employee code must be alphanumeric only \n'
+            else:
+                if rec.employee_code in barcodes:
+                    rec.fix_note += 'Employee code must be unique \n'
+                else:
+                    barcodes.append(rec.employee_code)
+
+            if rec.employee_name:
+                if validate_and_fix:
+                    rec.employee_name = rec.employee_name.strip().replace('  ', ' ')
+                no = 4 if rec.nationality == '01' else 2
+                if not re.match(r"^(?=\w+\s)(?=\w+(\s\w+){" + str(no - 1) + ",})(?=.{1,100}$)[^\s].*?[^\s]$", rec.employee_name):
+                    rec.fix_note += f"Employee name must be {no} or more names without extra spaces and doesn't exceed 100 characters\n"
+            else:
+                rec.fix_note += 'Employee name is required \n'
+
             if rec.national_id:
                 if not re.match(r"\b\d{14}\b", rec.national_id):
                     rec.fix_note += 'Employee National ID must be 14 number \n'
@@ -274,47 +308,108 @@ class EmployeeDetails(models.Model):
             elif rec.nationality == '01' and not rec.national_id:
                 rec.fix_note += 'Employee National ID is required for foreigners \n'
 
-            if rec.employee_code and not re.match(r"^[a-zA-Z0-9]+$", rec.employee_code):
-                rec.fix_note += 'Employee Badge ID must be alphanumeric only \n'
-            else:
-                if rec.employee_code in barcodes:
-                    rec.fix_note += 'Employee Badge ID must be unique \n'
-                else:
-                    barcodes.append(rec.employee_code)
+            if rec.nationality == '02':
+                if not rec.work_permit_number:
+                    rec.fix_note += 'EI040 is required for foreigners \n'
+                if not rec.work_permit_status:
+                    rec.fix_note += 'EI035 is required for foreigners \n'
+                if not rec.passport_number:
+                    rec.fix_note += 'Passport number (EI026) is required for foreigners \n'
 
-            if rec.nationality and not re.match(r"^[0][1-2]$", rec.nationality):
-                rec.fix_note += 'Nationality must be numeric with only 2 digits ex: 02, 01 \n'
+            if rec.work_permit_status and not re.match(r"^[0][1-3]$", rec.work_permit_status):
+                rec.fix_note += 'Work permit status must be numeric with only 2 digits ex: 02, 01, 03 \n'
 
-            if rec.employee_name:
-                if validate_and_fix:
-                    rec.employee_name = rec.employee_name.strip().replace('  ', ' ')
-                no = 4 if rec.nationality == '01' else 2
-                if not re.match(r"^(?=\w+\s)(?=\w+(\s\w+){" + str(no - 1) + ",})(?=.{1,100}$)[^\s].*?[^\s]$", rec.employee_name):
-                    rec.fix_note += f"Employee name must be {no} or more names without extra spaces and doesn't exceed 100 characters\n"
-            else:
-                rec.fix_note += 'Employee name is required \n'
+            if rec.passport_number and not re.match(r"\b[\u0600-\u06FFa-zA-Z0-9]{1,14}\b", rec.passport_number):
+                rec.fix_note += 'Passport number must be 14 alphanumeric chars or less \n'
 
-            if not rec.work_permit_status:
-                if rec.nationality == '02':
-                    rec.fix_note += 'Work permit status is required for foreigners \n'
-            else:
-                if not re.match(r"^[0][1-3]$", rec.work_permit_status):
-                    rec.fix_note += 'Work permit status must be numeric with only 2 digits ex: 02, 01, 03 \n'
-
-            if not rec.passport_number:
-                if rec.nationality == '02':
-                    rec.fix_note += 'Passport number is required for foreigners \n'
-            else:
-                if not re.match(r"\b[\u0600-\u06FFa-zA-Z0-9]{1,14}\b", rec.passport_number):
-                    rec.fix_note += 'Passport number must be 14 alphanumeric chars or less \n'
-
-            if rec.phone_number and not re.match(r"^(010|011|012|015)\d{8}$", rec.phone_number):
-                # note = 'Phone number must be 11 number start with 010, 011, 012 or 015 \n'
-                # if validate_and_fix:
-                #     # rec.phone_number = '0' + rec.phone_number if rec.phone_number[0] != '0' else rec.phone_number
-                #     if re.match(r"^(010|011|012|015)\d{8}$", rec.phone_number):
-                #         note = ''
+            if not rec.phone_number:
+                rec.fix_note += 'Phone number is required \n'
+            elif rec.phone_number and not re.match(r"^(010|011|012|015)\d{8}$", rec.phone_number):
                 rec.fix_note += 'Phone number must be 11 number start with 010, 011, 012 or 015 \n'
+
+            if not rec.job_position:
+                rec.fix_note += 'Job position (EI045) is required \n'
+
+            if not rec.branch_name:
+                rec.fix_note += 'Branch name (EI055) is required \n'
+
+            if not rec.tax_treatment:
+                rec.fix_note += 'EI060 is required \n'
+            else:
+                if not re.match(r"^[0][1-7]$", rec.tax_treatment):
+                    rec.fix_note += 'EI060 must be numeric with only 2 digits ex: 02, 01, 03, .., 07 \n'
+
+            if rec.tax_treatment == '02' and not rec.tax_registration_number:
+                rec.fix_note += 'EI065 is required for EI060 = 02 \n'
+            elif rec.tax_registration_number and not re.match(r"\b\d{9}\b", rec.tax_registration_number):
+                rec.fix_note += 'EI065 must be 9 number \n'
+
+            # ---------------- الحالة التأمينية -------------------
+            if not rec.insurance_status:
+                rec.fix_note += 'EI070 is required \n'
+            elif rec.insurance_status and not re.match(r"^[0-2][1-8]$", rec.insurance_status):
+                rec.fix_note += 'EI070 must be numeric with only 2 digits ex: 02, 01, 03, .., 28 \n'
+
+            if rec.insurance_status == '21':
+                if validate_and_fix:
+                    rec.insurance_number = False
+                    rec.insurance_join_date = False
+                    rec.non_insurance_allowances = False
+                    rec.total_salary = False
+
+                if rec.insurance_number:
+                    rec.fix_note += 'EI075 should be empty for EI070 = 21 \n'
+                if rec.total_salary:
+                    rec.fix_note += 'EI100 should be empty for EI070 = 21 \n'
+                if rec.insurance_join_date:
+                    rec.fix_note += 'EI080 should be empty for EI070 = 21 \n'
+                if rec.non_insurance_allowances:
+                    rec.fix_note += 'EI105 should be empty for EI070 = 21 \n'
+            else:
+                if not rec.insurance_number:
+                    rec.fix_note += 'EI075 is required \n'
+                if not rec.total_salary:
+                    rec.fix_note += 'EI100 is required \n'
+                if not rec.insurance_join_date:
+                    rec.fix_note += 'EI080 is required \n'
+                if not rec.non_insurance_allowances:
+                    rec.fix_note += 'EI105 is required \n'
+                # if rec.insurance_number and not re.match(r"\b\d{1,8}\b", rec.insurance_number):
+                #     rec.fix_note += 'EI075 must be 8 number or less \n'
+                # if
+            # -----------------------------------------------------------
+            if rec.tax_treatment in ['02', '08']:
+                if not rec.insurance_status == '21':
+                    rec.fix_note += 'EI070 must be 21 for EI060 = 08 or 02 \n'
+
+            if rec.tax_treatment == '08':
+                if validate_and_fix and rec.work_duration:
+                    rec.work_duration = False
+                if rec.work_duration:
+                    rec.fix_note += 'EI130 should be empty for EI060 = 08 \n'
+
+                if not rec.annual_gross_income:
+                    rec.fix_note += 'TC510 is required for EI060 = 08 \n'
+                if not rec.tax_due_for_employment_model_2:
+                    rec.fix_note += 'TC525 is required for EI060 = 08 \n'
+
+            # ------------- Dates ---------------------------------------------------
+            if rec.insurance_join_date: #  yyyymmdd
+                if re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.insurance_join_date):
+                    day = rec.insurance_join_date[6:7]
+                    if int(day) > 1:
+                        if rec.tax_treatment in ['01', '04']:
+                            if validate_and_fix:
+                                rec.non_insurance_allowances = False
+                                rec.total_salary = False
+                            if rec.non_insurance_allowances or rec.total_salary:
+                                rec.fix_note += 'EI105 and EI100 should be empty for EI070 = 01 or 04 \n'
+                else:
+                    rec.fix_note += 'EI080 must be in yyyymmdd format \n'
+            if rec.end_of_service_date and re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.end_of_service_date):
+                rec.fix_note += 'EI090 must be in yyyymmdd format  \n'
+            if rec.social_insurance_end_date and re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.social_insurance_end_date):
+                rec.fix_note += 'EI095 must be in yyyymmdd format  \n'
 
             if rec.fix_note:
                 rec.need_confirm = True
@@ -330,3 +425,8 @@ class EmployeeDetails(models.Model):
             #     rec.need_confirm = False
             # if rec.fix_note:
             #     rec.fix_note = ''
+
+    def action_done(self):
+        for rec in self:
+            if not rec.need_confirm:
+                rec.done = True

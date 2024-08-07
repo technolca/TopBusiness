@@ -8,8 +8,14 @@
                 <sheet>
                     <group>
                         <group string="Validation Notes">
-                            <field name="fix_note"/>
-                            <field name="need_confirm"/>
+                            <group>
+                                <field name="fix_note"/>
+                                <field name="need_confirm"/>
+                            </group>
+                            <group>
+                                <field name="done"/>
+                                <field name="sent"/>
+                            </group>
                         </group>
                     </group>
                     <group>
@@ -162,7 +168,7 @@
         </field>
     </record>
 
-        <record id="view_tbg_salary_info_taxs_tree" model="ir.ui.view">
+    <record id="view_tbg_salary_info_taxs_tree" model="ir.ui.view">
         <field name="name">tbg.salary.info.taxs.tree</field>
         <field name="model">tbg.salary_info_taxs</field>
         <field name="arch" type="xml">
@@ -171,7 +177,9 @@
                     <button name="action_validate" string="Validate" type="object" />
                     <button type="object" name="action_validate" string="Validate And Fix" context="{'validate_and_fix': True}" />
                     <button name="action_fix_decimal_fields" string="Fix Decimal Fields" type="object" />
+                    <button name="action_done" string="Set As Done" type="object" />
                 </header>
+                <field name="done" optional="hide"/>
                 <field name="sent" optional="hide"/>
                 <field name="need_confirm"/>
                 <field name="fix_note" optional="show"/>
@@ -195,6 +203,30 @@
                 <field name="annual_gross_income" optional="hide"/>
                 <field name="final_net_salary" optional="hide"/>
             </tree>
+        </field>
+    </record>
+
+     <!-- Search view for tbg.salary_info_taxs model -->
+    <record id="view_tbg_salary_info_taxs_search" model="ir.ui.view">
+        <field name="name">tbg.salary_info_taxs.search</field>
+        <field name="model">tbg.salary_info_taxs</field>
+        <field name="arch" type="xml">
+            <search string="Salary Info Taxs">
+                <field name="national_id"/>
+                <field name="nationality"/>
+                <field name="phone_number"/>
+                <filter string="Need Fix" name="filter_need_confirm" domain="[('need_confirm', '=', True)]"/>
+                <filter string="Sent" name="filter_sent" domain="[('sent', '=', True)]"/>
+                <filter string="Done" name="filter_done" domain="[('done', '=', True)]"/>
+                <filter string="New" name="filter_not_done" domain="[('done', '=', False)]"/>
+
+                <!-- Add more filters as needed -->
+<!--                <group expand="0" string="Group by">-->
+<!--                    <filter string="By Entitlements" name="group_by_entitlements" domain="[]" context="{'group_by': 'total_entitlements'}"/>-->
+<!--                    <filter string="By Insurance Wage" name="group_by_insurance_wage" domain="[]" context="{'group_by': 'insurance_wage'}"/>-->
+<!--                    &lt;!&ndash; Add more group by options as needed &ndash;&gt;-->
+<!--                </group>-->
+            </search>
         </field>
     </record>
 
