@@ -54,7 +54,8 @@
                                     <field name="exempt_special_allowances"/>
                                     <field name="taxable_special_allowances"/>
                                     <field name="commissions"/>
-                                    <field name="employee_share_in_profits"/>
+                                    <field name="employee_share_in_profits_1"/>
+                                    <field name="employee_share_in_profits_2"/>
                                 </group>
                             </group>
                             <group>
@@ -91,6 +92,22 @@
                                     <field name="pension_insurance_premiums"/>
                                     <field name="additions_loan_value"/>
                                     <field name="additions_non_taxable_end_of_service_bonus"/>
+                                </group>
+                                <group>
+                                    <field name="employee_share_in_social_insurance_and_pensions"/>
+                                    <field name="employee_share_deducted_in_comprehensive_health_insurance"/>
+                                    <field name="company_share_in_social_insurance"/>
+                                    <field name="company_share_in_comprehensive_health_insurance"/>
+                                </group>
+                                <group>
+                                    <field name="amounts_exempt_under_special_laws"/>
+                                    <field name="installments_previous_period_loan_secondment_consideration"/>
+                                    <field name="total_insurance_fund_contributions"/>
+                                </group>
+                                <group>
+                                    <field name="total_deductions"/>
+                                    <field name="net_income_period_bowl"/>
+                                    <field name="martyr_fund_contribution"/>
                                 </group>
                             </group>
                         </group>
@@ -149,12 +166,13 @@
         <field name="name">tbg.salary.info.taxs.tree</field>
         <field name="model">tbg.salary_info_taxs</field>
         <field name="arch" type="xml">
-            <tree string="Employee Details For Taxs" decoration-danger="need_confirm">
+            <tree string="Employee Details For Taxs" decoration-danger="need_confirm" decoration-success="sent">
                 <header>
                     <button name="action_validate" string="Validate" type="object" />
                     <button type="object" name="action_validate" string="Validate And Fix" context="{'validate_and_fix': True}" />
-<!--                    <button name="action_confirm" string="Confirm" type="object" />-->
+                    <button name="action_fix_decimal_fields" string="Fix Decimal Fields" type="object" />
                 </header>
+                <field name="sent" optional="hide"/>
                 <field name="need_confirm"/>
                 <field name="fix_note" optional="show"/>
                 <field name="employee_code" optional="show"/>
