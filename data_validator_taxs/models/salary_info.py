@@ -410,9 +410,9 @@ class EmployeeDetails(models.Model):
                 if rec.insurance_join_date.day > 1 and rec.tax_treatment in ['01', '04']:
                     if validate_and_fix:
                         rec.non_insurance_allowances = False
-                        rec.total_hours = False
-                    if rec.non_insurance_allowances or rec.total_hours:
-                        rec.fix_note += 'EI105 and EI130 should be empty for EI070 = 01 or 04 \n'
+                        rec.total_salary = False
+                    if rec.non_insurance_allowances or rec.total_salary:
+                        rec.fix_note += 'EI105 and EI100 should be empty for EI070 = 01 or 04 \n'
 
             # if rec.end_of_service_date and re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.end_of_service_date):
             #     rec.fix_note += 'EI090 must be in yyyymmdd format  \n'
