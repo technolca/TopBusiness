@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_add_date_wizard_form" model="ir.ui.view">
+        <field name="name">tbg.add_date_wizard.form</field>
+        <field name="model">tbg.add_date_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Sheet Date">
+                <sheet>
+                    <group>
+                        <field name="date" widget='date'/>
+                    </group>
+                    <footer>
+                        <button name="action_add_date" type="object" string="Add Date" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -6,205 +6,286 @@
         <field name="arch" type="xml">
             <form string="Employee Details For Taxs">
                 <sheet>
-                    <group>
-                        <group string="Validation Notes">
-                            <group>
-                                <field name="fix_note"/>
-                                <field name="need_confirm"/>
-                            </group>
-                            <group>
-                                <field name="done"/>
-                                <field name="sent"/>
-                            </group>
+                    <group string="Validation Notes">
+                        <group>
+                            <field name="fix_note"/>
+                            <field name="sheet_date" optional="hide"/>
+                        </group>
+                        <group>
+                            <field name="need_confirm"/>
+                            <field name="done"/>
+                            <field name="sent"/>
                         </group>
                     </group>
-                    <group>
-                        <!-- Export Fields -->
-                        <group string="Export Fields" colspan="4">
-                            <group>
-                                <group>
-                                    <field name="employee_code"/>
-                                    <field name="employee_name"/>
-                                    <field name="nationality"/>
-                                    <field name="national_id"/>
-                                    <field name="passport_number"/>
-                                    <field name="phone_number"/>
-                                </group>
-                                <group>
-                                    <field name="work_permit_status"/>
-                                    <field name="work_permit_number"/>
-                                    <field name="job_position"/>
-                                    <field name="branch_name"/>
-                                    <field name="tax_treatment"/>
-                                    <field name="tax_registration_number"/>
-                                </group>
-                                <group>
-                                    <field name="work_duration"/>
-                                    <field name="insurance_status"/>
-                                    <field name="insurance_number"/>
-                                    <field name="insurance_join_date"/>
-                                    <field name="previous_period_installment"/>
-                                    <field name="end_of_service_date"/>
-                                </group>
-                                <group>
-                                    <field name="social_insurance_end_date"/>
-                                    <field name="total_salary"/>
-                                    <field name="non_insurance_allowances"/>
-                                    <field name="comprehensive_health_insurance_status"/>
-                                    <field name="non_worker_wives_count"/>
-                                    <field name="dependents_number"/>
-                                </group>
-                                <group>
-                                    <field name="basic_salary"/>
-                                    <field name="bonuses_and_incentives"/>
-                                    <field name="exempt_special_allowances"/>
-                                    <field name="taxable_special_allowances"/>
-                                    <field name="commissions"/>
-                                    <field name="employee_share_in_profits_1"/>
-                                    <field name="employee_share_in_profits_2"/>
-                                </group>
-                            </group>
-                            <group>
-                                <group>
-                                    <field name="service_fee"/>
-                                    <field name="tips"/>
-                                    <field name="board_member_salaries"/>
-                                    <field name="cash_compensation_for_leave_balance"/>
-                                    <field name="end_of_service_bonus"/>
-                                    <field name="amounts_paid_under_special_laws_exempt_part"/>
-                                </group>
-                                <group>
-                                    <field name="other_taxable_allowances"/>
-                                    <field name="company_borne_salary_tax"/>
-                                    <field name="company_borne_employee_social_insurance_share"/>
-                                    <field name="quarterly_paid_taxable_amounts"/>
-                                    <field name="semi_annual_paid_taxable_amounts"/>
-                                    <field name="annual_paid_taxable_amounts"/>
-                                </group>
-                                <group>
-                                    <field name="car_benefits"/>
-                                    <field name="mobile_phone_benefits"/>
-                                    <field name="loan_and_advance_benefits"/>
-                                    <field name="life_insurance_benefits_employer_share"/>
-                                    <field name="company_shares_inside_outside_egypt"/>
-                                    <field name="other_benefits"/>
-                                </group>
-                                <group>
-                                    <field name="employee_insurance_fund_contributions"/>
-                                    <field name="life_insurance_premiums_employee"/>
-                                    <field name="health_insurance_premiums"/>
-                                </group>
-                                <group>
-                                    <field name="pension_insurance_premiums"/>
-                                    <field name="additions_loan_value"/>
-                                    <field name="additions_non_taxable_end_of_service_bonus"/>
-                                </group>
-                                <group>
-                                    <field name="employee_share_in_social_insurance_and_pensions"/>
-                                    <field name="employee_share_deducted_in_comprehensive_health_insurance"/>
-                                    <field name="company_share_in_social_insurance"/>
-                                    <field name="company_share_in_comprehensive_health_insurance"/>
-                                </group>
-                                <group>
-                                    <field name="amounts_exempt_under_special_laws"/>
-                                    <field name="installments_previous_period_loan_secondment_consideration"/>
-                                    <field name="total_insurance_fund_contributions"/>
-                                </group>
-                                <group>
-                                    <field name="total_deductions"/>
-                                    <field name="net_income_period_bowl"/>
-                                    <field name="martyr_fund_contribution"/>
-                                </group>
-                            </group>
-                        </group>
-                    </group>
-                    <group>
-                        <group string="Other Fields">
-                        <group>
-                            <field name="additions_non_taxable_leave_balance"/>
-                            <field name="other_additions"/>
-                            <field name="deductions_alimony"/>
-                            <field name="deductions_loan_installment"/>
-                            <field name="deductions_union_club_subscriptions"/>
-                            <field name="deductions_penalties"/>
-                        </group>
-                        <group>
-                            <field name="deductions_life_insurance_premium"/>
-                            <field name="other_deductions"/>
-                            <field name="actually_transferred_amounts"/>
-                            <field name="annual_gross_income"/>
-                            <field name="tax_due_for_original_employment"/>
-                            <field name="tax_due_for_employment_model_3"/>
-                        </group>
-                        <group>
-                            <field name="tax_due_for_employment_model_2"/>
-                            <field name="total_tax_due_for_all_employment"/>
-                            <field name="tax_due_for_period"/>
-                            <field name="tax_due_for_previous_periods_1_4_5_6_7"/>
-                            <field name="tax_due_for_period_1_4_5_6_7"/>
-                            <field name="tax_due_for_previous_periods_2"/>
-                        </group>
-                        <group>
-                            <field name="tax_due_for_period_2"/>
-                            <field name="tax_due_for_previous_periods_3"/>
-                            <field name="tax_due_for_period_3"/>
-                            <field name="final_net_salary"/>
-                            <field name="social_contribution_for_martyrs_fund"/>
-                            <field name="support_for_people_with_disabilities"/>
-                        </group>
-                        <group string="Additional Details">
-                            <field name="total_entitlements"/>
-                            <field name="insurance_wage"/>
-                            <field name="insurance_subscription_value"/>
 
-                            <field name="personal_exemption"/>
-                            <field name="period_bowl"/>
-                            <field name="annual_tax"/>
+                    <group string="Basic Info">
+                        <group>
+                            <field name="employee_code"/>
+                            <field name="employee_name"/>
+                            <field name="nationality"/>
+                        </group>
+                        <group>
+                            <field name="national_id"/>
+                            <field name="passport_number"/>
+                            <field name="phone_number"/>
                         </group>
                     </group>
-                    </group>
+<!--                    <group>-->
+                        <!-- Export Fields -->
+                        <group>
+                            <group>
+                                <group string="EI000">
+                                    <field name="work_permit_status" optional="hide"/>
+                                    <field name="work_permit_number" optional="hide"/>
+                                    <field name="job_position" optional="hide"/>
+                                    <field name="branch_name" optional="hide"/>
+                                    <field name="tax_treatment" optional="hide"/>
+                                    <field name="tax_registration_number" optional="hide"/>
+                                    <field name="work_duration" optional="hide"/>
+                                    <field name="insurance_status" optional="hide"/>
+                                    <field name="insurance_number" optional="hide"/>
+                                    <field name="insurance_join_date" optional="hide"/>
+                                    <field name="previous_period_installment" optional="hide"/>
+                                    <field name="end_of_service_date" optional="hide"/>
+                                    <field name="social_insurance_end_date" optional="hide"/>
+                                    <field name="total_salary" optional="hide"/>
+                                    <field name="non_insurance_allowances" optional="hide"/>
+                                    <field name="insurance_wage" optional="hide"/>
+                                    <field name="comprehensive_health_insurance_status" optional="hide"/>
+                                    <field name="non_worker_wives_count" optional="hide"/>
+                                    <field name="dependents_number" optional="hide"/>
+                                </group>
+
+                                <group string="DTE000">
+                                    <field name="basic_salary" optional="hide"/>
+                                    <field name="bonuses_and_incentives" optional="hide"/>
+                                    <field name="exempt_special_allowances" optional="hide"/>
+                                    <field name="taxable_special_allowances" optional="hide"/>
+                                    <field name="commissions" optional="hide"/>
+                                    <field name="employee_share_in_profits_1" optional="hide"/>
+                                    <field name="employee_service_fee" optional="hide"/>
+                                    <field name="tips" optional="hide"/>
+                                    <field name="board_member_salaries" optional="hide"/>
+                                    <field name="cash_compensation_for_leave_balance" optional="hide"/>
+                                    <field name="end_of_service_bonus" optional="hide"/>
+                                    <field name="amounts_paid_under_special_laws_exempt_part" optional="hide"/>
+                                    <field name="other_taxable_allowances" optional="hide"/>
+                                    <field name="company_borne_salary_tax" optional="hide"/>
+                                    <field name="company_borne_employee_social_insurance_share" optional="hide"/>
+                                    <field name="quarterly_paid_taxable_amounts" optional="hide"/>
+                                    <field name="semi_annual_paid_taxable_amounts" optional="hide"/>
+                                    <field name="annual_paid_taxable_amounts" optional="hide"/>
+                                    <field name="car_benefits" optional="hide"/>
+                                    <field name="mobile_phone_benefits" optional="hide"/>
+                                    <field name="loan_and_advance_benefits" optional="hide"/>
+                                    <field name="life_insurance_benefits_employer_share" optional="hide"/>
+                                    <field name="company_shares_inside_outside_egypt" optional="hide"/>
+                                    <field name="other_benefits" optional="hide"/>
+                                    <field name="total_entitlements" optional="hide"/>
+                                </group>
+
+                            </group>
+                            <group>
+                                <group string="DAE000">
+                                    <field name="employee_share_in_social_insurance_and_pensions" optional="hide"/>
+                                    <field name="employee_share_deducted_in_comprehensive_health_insurance" optional="hide"/>
+                                    <field name="amounts_exempt_under_special_laws" optional="hide"/>
+                                    <field name="exempt_special_allowances_2" optional="hide"/>
+                                    <field name="social_allowance" optional="hide"/>
+                                    <field name="personal_exemption" optional="hide"/>
+                                    <field name="installments_previous_period_loan_secondment_consideration" optional="hide"/>
+                                    <field name="employee_share_in_profits_2" optional="hide"/>
+                                    <field name="employee_insurance_fund_contributions" optional="hide"/>
+                                    <field name="life_insurance_premiums_employee" optional="hide"/>
+                                    <field name="health_insurance_premiums" optional="hide"/>
+                                    <field name="pension_insurance_premiums" optional="hide"/>
+                                    <field name="total_insurance_fund_contributions" optional="hide"/>
+                                    <field name="total_deductions" optional="hide"/>
+                                </group>
+
+                                <group string="TC000">
+                                    <field name="net_income_period_bowl" optional="hide"/>
+                                    <field name="annual_gross_income" optional="hide"/>
+                                    <field name="tax_due_for_original_employment" optional="hide"/>
+                                    <field name="tax_due_for_employment_model_3" optional="hide"/>
+                                    <field name="tax_due_for_employment_model_2" optional="hide"/>
+                                    <field name="total_tax_due_for_all_employment" optional="hide"/>
+                                    <field name="tax_due_for_period" optional="hide"/>
+                                    <field name="tax_due_for_previous_periods_1_4_5_6_7" optional="hide"/>
+                                    <field name="tax_due_for_period_1_4_5_6_7" optional="hide"/>
+                                    <field name="tax_due_for_previous_periods_2" optional="hide"/>
+                                    <field name="tax_due_for_period_2" optional="hide"/>
+                                    <field name="tax_due_for_previous_periods_3" optional="hide"/>
+                                    <field name="tax_due_for_period_3" optional="hide"/>
+                                    <field name="final_net_salary" optional="hide"/>
+                                </group>
+
+<!--                                <group>-->
+                                <group string="NAD000">
+                                    <field name="social_contribution_for_martyrs_fund" optional="hide"/>
+                                    <field name="support_for_people_with_disabilities" optional="hide"/>
+                                    <field name="additions_loan_value" optional="hide"/>
+                                    <field name="additions_non_taxable_end_of_service_bonus" optional="hide"/>
+                                    <field name="additions_non_taxable_leave_balance" optional="hide"/>
+                                    <field name="other_additions" optional="hide"/>
+                                    <field name="deductions_alimony" optional="hide"/>
+                                    <field name="deductions_loan_installment" optional="hide"/>
+                                    <field name="deductions_union_club_subscriptions" optional="hide"/>
+                                    <field name="deductions_penalties" optional="hide"/>
+                                    <field name="deductions_life_insurance_premium" optional="hide"/>
+                                    <field name="other_deductions" optional="hide"/>
+                                    <field name="company_share_in_social_insurance" optional="hide"/>
+                                </group>
+
+                                <group string="CLD000">
+                                    <field name="company_share_in_comprehensive_health_insurance" optional="hide"/>
+                                    <field name="martyr_fund_contribution" optional="hide"/>
+                                    <field name="company_share_in_comprehensive_medical_insurance" optional="hide"/>
+                                    <field name="actually_transferred_amounts" optional="hide"/>
+                                </group>
+
+<!--                                    </group>-->
+                            </group>
+
+                        </group>
+<!--                    </group>-->
                 </sheet>
             </form>
         </field>
     </record>
 
     <record id="view_tbg_salary_info_taxs_tree" model="ir.ui.view">
-        <field name="name">tbg.salary.info.taxs.tree</field>
-        <field name="model">tbg.salary_info_taxs</field>
-        <field name="arch" type="xml">
-            <tree string="Employee Details For Taxs" decoration-danger="need_confirm" decoration-success="sent">
-                <header>
-                    <button name="action_validate" string="Validate" type="object" />
-                    <button type="object" name="action_validate" string="Validate And Fix" context="{'validate_and_fix': True}" />
-                    <button name="action_fix_decimal_fields" string="Fix Decimal Fields" type="object" />
-                    <button name="action_done" string="Set As Done" type="object" />
-                </header>
-                <field name="done" optional="hide"/>
-                <field name="sent" optional="hide"/>
-                <field name="need_confirm"/>
-                <field name="fix_note" optional="show"/>
-                <field name="employee_code" optional="show"/>
-                <field name="employee_name" optional="show"/>
-                <field name="nationality" optional="show"/>
-                <field name="national_id" optional="show"/>
-                <field name="passport_number" optional="show"/>
-                <field name="phone_number" optional="show"/>
-                <field name="work_permit_status" optional="show"/>
-                <field name="job_position" optional="show"/>
-                <field name="branch_name" optional="show"/>
-                <field name="tax_treatment" optional="show"/>
-                <field name="total_salary" optional="show"/>
-                <field name="basic_salary" optional="show"/>
-                <field name="bonuses_and_incentives" optional="hide"/>
-                <field name="commissions" optional="hide"/>
-                <field name="service_fee" optional="hide"/>
-                <field name="tips" optional="hide"/>
-                <field name="end_of_service_bonus" optional="hide"/>
-                <field name="annual_gross_income" optional="hide"/>
-                <field name="final_net_salary" optional="hide"/>
-            </tree>
-        </field>
-    </record>
+    <field name="name">tbg.salary.info.taxs.tree</field>
+    <field name="model">tbg.salary_info_taxs</field>
+    <field name="arch" type="xml">
+        <tree string="Employee Details For Taxs" decoration-danger="need_confirm" decoration-success="sent" editable="bottom">
+            <header>
+                <button name="action_add_sheet_date" string="Add Date" type="object" />
+                <button name="action_validate" string="Validate" type="object" />
+                <button type="object" name="action_validate" string="Validate And Fix" context="{'validate_and_fix': True}" />
+                <button name="action_fix_decimal_fields" string="Fix Decimal Fields" type="object" />
+
+<!--                <button name="action_done" string="Set As Done" type="object" />-->
+            </header>
+            <!-- EI000 -->
+            <field name="done" optional="hide"/>
+            <field name="sent" optional="hide"/>
+            <field name="need_confirm" optional="hide"/>
+            <field name="fix_note" optional="show"/>
+            <field name="sheet_date" optional="hide"/>
+            <field name="sequence" optional="hide"/>
+            <field name="employee_code" optional="show"/>
+            <field name="employee_name" optional="show"/>
+            <field name="nationality" optional="show"/>
+            <field name="national_id" optional="show"/>
+            <field name="passport_number" optional="show"/>
+            <field name="phone_number" optional="show"/>
+
+            <field name="work_permit_status" optional="hide"/>
+            <field name="work_permit_number" optional="hide"/>
+            <field name="job_position" optional="hide"/>
+            <field name="branch_name" optional="hide"/>
+            <field name="tax_treatment" optional="hide"/>
+            <field name="tax_registration_number" optional="hide"/>
+            <field name="work_duration" optional="hide"/>
+            <field name="insurance_status" optional="hide"/>
+            <field name="insurance_number" optional="hide"/>
+            <field name="insurance_join_date" optional="hide"/>
+            <field name="previous_period_installment" optional="hide"/>
+            <field name="end_of_service_date" optional="hide"/>
+            <field name="social_insurance_end_date" optional="hide"/>
+            <field name="total_salary" optional="hide"/>
+            <field name="non_insurance_allowances" optional="hide"/>
+            <field name="insurance_wage" optional="hide"/>
+            <field name="comprehensive_health_insurance_status" optional="hide"/>
+            <field name="non_worker_wives_count" optional="hide"/>
+            <field name="dependents_number" optional="hide"/>
+
+            <!-- DTE000-->
+            <field name="basic_salary" optional="hide"/>
+            <field name="bonuses_and_incentives" optional="hide"/>
+            <field name="exempt_special_allowances" optional="hide"/>
+            <field name="taxable_special_allowances" optional="hide"/>
+            <field name="commissions" optional="hide"/>
+            <field name="employee_share_in_profits_1" optional="hide"/>
+            <field name="employee_service_fee" optional="hide"/>
+            <field name="tips" optional="hide"/>
+            <field name="board_member_salaries" optional="hide"/>
+            <field name="cash_compensation_for_leave_balance" optional="hide"/>
+            <field name="end_of_service_bonus" optional="hide"/>
+            <field name="amounts_paid_under_special_laws_exempt_part" optional="hide"/>
+            <field name="other_taxable_allowances" optional="hide"/>
+            <field name="company_borne_salary_tax" optional="hide"/>
+            <field name="company_borne_employee_social_insurance_share" optional="hide"/>
+            <field name="quarterly_paid_taxable_amounts" optional="hide"/>
+            <field name="semi_annual_paid_taxable_amounts" optional="hide"/>
+            <field name="annual_paid_taxable_amounts" optional="hide"/>
+            <field name="car_benefits" optional="hide"/>
+            <field name="mobile_phone_benefits" optional="hide"/>
+            <field name="loan_and_advance_benefits" optional="hide"/>
+            <field name="life_insurance_benefits_employer_share" optional="hide"/>
+            <field name="company_shares_inside_outside_egypt" optional="hide"/>
+            <field name="other_benefits" optional="hide"/>
+            <field name="total_entitlements" optional="hide"/>
+
+            <!-- DAE000 -->
+            <field name="employee_share_in_social_insurance_and_pensions" optional="hide"/>
+            <field name="employee_share_deducted_in_comprehensive_health_insurance" optional="hide"/>
+            <field name="amounts_exempt_under_special_laws" optional="hide"/>
+            <field name="exempt_special_allowances_2" optional="hide"/>
+            <field name="social_allowance" optional="hide"/>
+            <field name="personal_exemption" optional="hide"/>
+            <field name="installments_previous_period_loan_secondment_consideration" optional="hide"/>
+            <field name="employee_share_in_profits_2" optional="hide"/>
+            <field name="employee_insurance_fund_contributions" optional="hide"/>
+            <field name="life_insurance_premiums_employee" optional="hide"/>
+            <field name="health_insurance_premiums" optional="hide"/>
+            <field name="pension_insurance_premiums" optional="hide"/>
+            <field name="total_insurance_fund_contributions" optional="hide"/>
+            <field name="total_deductions" optional="hide"/>
+
+            <!-- TC000 -->
+            <field name="net_income_period_bowl" optional="hide"/>
+            <field name="annual_gross_income" optional="hide"/>
+            <field name="tax_due_for_original_employment" optional="hide"/>
+            <field name="tax_due_for_employment_model_3" optional="hide"/>
+            <field name="tax_due_for_employment_model_2" optional="hide"/>
+            <field name="total_tax_due_for_all_employment" optional="hide"/>
+            <field name="tax_due_for_period" optional="hide"/>
+            <field name="tax_due_for_previous_periods_1_4_5_6_7" optional="hide"/>
+            <field name="tax_due_for_period_1_4_5_6_7" optional="hide"/>
+            <field name="tax_due_for_previous_periods_2" optional="hide"/>
+            <field name="tax_due_for_period_2" optional="hide"/>
+            <field name="tax_due_for_previous_periods_3" optional="hide"/>
+            <field name="tax_due_for_period_3" optional="hide"/>
+            <field name="final_net_salary" optional="hide"/>
+
+            <!-- NAD610 -->
+            <field name="social_contribution_for_martyrs_fund" optional="hide"/>
+            <field name="support_for_people_with_disabilities" optional="hide"/>
+            <field name="additions_loan_value" optional="hide"/>
+            <field name="additions_non_taxable_end_of_service_bonus" optional="hide"/>
+            <field name="additions_non_taxable_leave_balance" optional="hide"/>
+            <field name="other_additions" optional="hide"/>
+            <field name="deductions_alimony" optional="hide"/>
+            <field name="deductions_loan_installment" optional="hide"/>
+            <field name="deductions_union_club_subscriptions" optional="hide"/>
+            <field name="deductions_penalties" optional="hide"/>
+            <field name="deductions_life_insurance_premium" optional="hide"/>
+            <field name="other_deductions" optional="hide"/>
+            <field name="company_share_in_social_insurance" optional="hide"/>
+
+            <!-- CLD805 -->
+            <field name="company_share_in_comprehensive_health_insurance" optional="hide"/>
+            <field name="martyr_fund_contribution" optional="hide"/>
+            <field name="company_share_in_comprehensive_medical_insurance" optional="hide"/>
+            <field name="actually_transferred_amounts" optional="hide"/>
+
+            <button icon="fa-edit" name="action_open_form_view" type="object" />
+        </tree>
+    </field>
+</record>
+
 
      <!-- Search view for tbg.salary_info_taxs model -->
     <record id="view_tbg_salary_info_taxs_search" model="ir.ui.view">

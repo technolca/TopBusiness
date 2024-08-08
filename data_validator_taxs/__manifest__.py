@@ -23,6 +23,7 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'views/add_date_wizard_views.xml',
         'views/salary_info_views.xml',
         "views/_menu.xml",
     ],

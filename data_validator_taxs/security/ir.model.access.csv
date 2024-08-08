@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
 access_base_hr_outsource_tbg_salary_info_taxs,tbg.salary_info_taxs,model_tbg_salary_info_taxs,base.group_user,1,1,1,1
+
+access_base_hr_outsource_tbg_add_date_wizard,tbg.add_date_wizard,model_tbg_add_date_wizard,base.group_user,1,1,1,1
