@@ -348,7 +348,7 @@ class EmployeeDetails(models.Model):
             # ---------------- الحالة التأمينية -------------------
             if not rec.insurance_status:
                 rec.fix_note += 'EI070 is required \n'
-            elif rec.insurance_status and not re.match(r"^[0-2][1-8]$", rec.insurance_status):
+            elif rec.insurance_status and not re.match(r"^(0[1-9]|1[0-9]|2[0-8])$", rec.insurance_status):
                 rec.fix_note += 'EI070 must be numeric with only 2 digits ex: 02, 01, 03, .., 28 \n'
 
             if rec.insurance_status == '21':
@@ -412,7 +412,7 @@ class EmployeeDetails(models.Model):
                         rec.non_insurance_allowances = False
                         rec.total_salary = False
                     if rec.non_insurance_allowances or rec.total_salary:
-                        rec.fix_note += 'EI105 and EI100 should be empty for EI070 = 01 or 04 \n'
+                        rec.fix_note += 'EI105 and EI100 should be empty for EI060 = 01 or 04 \n'
 
             # if rec.end_of_service_date and re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.end_of_service_date):
             #     rec.fix_note += 'EI090 must be in yyyymmdd format  \n'
