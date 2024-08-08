@@ -129,9 +129,9 @@ class EmployeeDetails(models.Model):
     insurance_number = fields.Char(string='EI075', help='الرقم التأمينى')
     previous_period_installment = fields.Float(string='EI085', help='قسط مدة سابقة')
 
-    insurance_join_date = fields.Char(string='EI080', help='تاريخ الالتحاق بالتأمينات')
-    end_of_service_date = fields.Char(string='EI090', help='تاريخ نهاية الخدمة')
-    social_insurance_end_date = fields.Char(string='EI095', help='تاريخ انتهاء الاشتراك من التأمينات الاجتماعية')
+    insurance_join_date = fields.Date(string='EI080', help='تاريخ الالتحاق بالتأمينات')
+    end_of_service_date = fields.Date(string='EI090', help='تاريخ نهاية الخدمة')
+    social_insurance_end_date = fields.Date(string='EI095', help='تاريخ انتهاء الاشتراك من التأمينات الاجتماعية')
     total_salary = fields.Float(string='EI100', help='الأجر الشامل')
     non_insurance_allowances = fields.Float(string='EI105', help='بدلات غير خاضعة تأمينيأ')
     comprehensive_health_insurance_status = fields.Char(string='EI115', help='حالة التأمين الصحي الشامل')
@@ -143,6 +143,7 @@ class EmployeeDetails(models.Model):
     basic_salary = fields.Float(string='DTE160', help='المرتب الأساسي')
     bonuses_and_incentives = fields.Float(string='DTE170', help='مكافات وحوافز/أجر إضافي/منح')
     exempt_special_allowances = fields.Float(string='DTE180', help='علاوات خاصة معفاة')
+    exempt_special_allowances_2 = fields.Float(string='DAE420', help='علاوات خاصة معفاة')
     taxable_special_allowances = fields.Float(string='DTE175', help='علاوات خاصة خاضعة')
     commissions = fields.Float(string='DTE190', help='عمولات')
     employee_share_in_profits_1 = fields.Float(string='DTE230', help='نصيب العامل في الأرباح1 ')
@@ -259,10 +260,10 @@ class EmployeeDetails(models.Model):
                 if value and (len(value) == 1 or len(value) > 2) and value[0] != '0':
                     val[field] = '0' + value
 
-            # for field in FieldsDict.get('Flout'):
+            # for field in FieldsDict.get('Date'):
             #     val[field] = float(str(round(val.get(field, 0.0), 2)).replace(',', '') ) #
             # if 'الله' in val.get('employee_name', ''):
-            #     val['employee_name'] = unicodedata.normalize('NFKD', val.get('employee_name'))
+            #     val['employee_name'] = val.get('employee_name', '').replace('اللّه', 'الله')
         res = super(EmployeeDetails, self).create(vals)
         return res
 
@@ -372,8 +373,8 @@ class EmployeeDetails(models.Model):
                     rec.fix_note += 'EI100 is required \n'
                 if not rec.insurance_join_date:
                     rec.fix_note += 'EI080 is required \n'
-                if not rec.non_insurance_allowances:
-                    rec.fix_note += 'EI105 is required \n'
+                # if not rec.non_insurance_allowances:
+                #     rec.fix_note += 'EI105 is required \n'
                 # if rec.insurance_number and not re.match(r"\b\d{1,8}\b", rec.insurance_number):
                 #     rec.fix_note += 'EI075 must be 8 number or less \n'
                 # if
@@ -395,21 +396,28 @@ class EmployeeDetails(models.Model):
 
             # ------------- Dates ---------------------------------------------------
             if rec.insurance_join_date: #  yyyymmdd
-                if re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.insurance_join_date):
-                    day = rec.insurance_join_date[6:7]
-                    if int(day) > 1:
-                        if rec.tax_treatment in ['01', '04']:
-                            if validate_and_fix:
-                                rec.non_insurance_allowances = False
-                                rec.total_salary = False
-                            if rec.non_insurance_allowances or rec.total_salary:
-                                rec.fix_note += 'EI105 and EI100 should be empty for EI070 = 01 or 04 \n'
-                else:
-                    rec.fix_note += 'EI080 must be in yyyymmdd format \n'
-            if rec.end_of_service_date and re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.end_of_service_date):
-                rec.fix_note += 'EI090 must be in yyyymmdd format  \n'
-            if rec.social_insurance_end_date and re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.social_insurance_end_date):
-                rec.fix_note += 'EI095 must be in yyyymmdd format  \n'
+                # if re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.insurance_join_date):
+                #     day = rec.insurance_join_date[6:7]
+                #     if int(day) > 1:
+                #         if rec.tax_treatment in ['01', '04']:
+                #             if validate_and_fix:
+                #                 rec.non_insurance_allowances = False
+                #                 rec.total_salary = False
+                #             if rec.non_insurance_allowances or rec.total_salary:
+                #                 rec.fix_note += 'EI105 and EI100 should be empty for EI070 = 01 or 04 \n'
+                # else:
+                #     rec.fix_note += 'EI080 must be in yyyymmdd format \n'
+                if rec.insurance_join_date.day > 1 and rec.tax_treatment in ['01', '04']:
+                    if validate_and_fix:
+                        rec.non_insurance_allowances = False
+                        rec.total_hours = False
+                    if rec.non_insurance_allowances or rec.total_hours:
+                        rec.fix_note += 'EI105 and EI130 should be empty for EI070 = 01 or 04 \n'
+
+            # if rec.end_of_service_date and re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.end_of_service_date):
+            #     rec.fix_note += 'EI090 must be in yyyymmdd format  \n'
+            # if rec.social_insurance_end_date and re.match(r"^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$", rec.social_insurance_end_date):
+            #     rec.fix_note += 'EI095 must be in yyyymmdd format  \n'
 
             if rec.fix_note:
                 rec.need_confirm = True
